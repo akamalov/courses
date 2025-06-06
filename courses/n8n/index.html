@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n Crash Course - Interactive Learning</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-project-diagram"></i>
+                <h1>n8n Crash Course</h1>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <i class="fas fa-star"></i>
+                    <span id="pointsDisplay">0</span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-fire"></i>
+                    <span id="streakDisplay">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="sidebar">
+            <div class="nav-item active" data-section="overview">
+                <i class="fas fa-home"></i>
+                <span>Overview</span>
+                <div class="completion-badge"></div>
+            </div>
+            <div class="nav-item" data-section="basics">
+                <i class="fas fa-cube"></i>
+                <span>Basics</span>
+                <div class="completion-badge"></div>
+            </div>
+            <div class="nav-item" data-section="nodes">
+                <i class="fas fa-sitemap"></i>
+                <span>Nodes & Workflows</span>
+                <div class="completion-badge"></div>
+            </div>
+            <div class="nav-item" data-section="triggers">
+                <i class="fas fa-play"></i>
+                <span>Triggers</span>
+                <div class="completion-badge"></div>
+            </div>
+            <div class="nav-item" data-section="actions">
+                <i class="fas fa-cogs"></i>
+                <span>Actions</span>
+                <div class="completion-badge"></div>
+            </div>
+            <div class="nav-item" data-section="examples">
+                <i class="fas fa-lightbulb"></i>
+                <span>Examples</span>
+                <div class="completion-badge"></div>
+            </div>
+            <div class="nav-item" data-section="quiz">
+                <i class="fas fa-question-circle"></i>
+                <span>Final Quiz</span>
+                <div class="completion-badge"></div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section active">
+                <div class="section-header">
+                    <h2>Welcome to n8n Crash Course!</h2>
+                    <div class="mnemonic-card">
+                        <h3>🧠 Memory Hack</h3>
+                        <p><strong>"n8n"</strong> = <strong>"No-Code Nation"</strong> - Remember it as building automation for everyone!</p>
+                    </div>
+                </div>
+
+                <div class="learning-dashboard">
+                    <div class="dashboard-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>Time to Complete</h3>
+                        <p>30-45 minutes</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <h3>Micro-Lessons</h3>
+                        <p>7 bite-sized chunks</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-trophy"></i>
+                        <h3>Achievement Goal</h3>
+                        <p>Build your first workflow</p>
+                    </div>
+                </div>
+
+                <div class="intro-content">
+                    <h3>What You'll Learn</h3>
+                    <div class="learning-objectives">
+                        <div class="objective">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Understand what n8n is and why it's powerful</span>
+                        </div>
+                        <div class="objective">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Master the core concepts: nodes, workflows, and triggers</span>
+                        </div>
+                        <div class="objective">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Create your first automation workflow</span>
+                        </div>
+                        <div class="objective">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Explore real-world use cases and examples</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="cta-button" onclick="startCourse()">
+                    <i class="fas fa-rocket"></i>
+                    Start Your n8n Journey!
+                </button>
+            </section>
+
+            <!-- Basics Section -->
+            <section id="basics" class="content-section">
+                <div class="section-header">
+                    <h2>n8n Basics</h2>
+                    <div class="mnemonic-card">
+                        <h3>🎯 Focus Hack</h3>
+                        <p><strong>W.O.R.K</strong> = <strong>W</strong>orkflows <strong>O</strong>rganize <strong>R</strong>epetitive <strong>K</strong>ey-tasks</p>
+                    </div>
+                </div>
+
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <div class="concept-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>What is n8n?</h3>
+                        <p>n8n is a workflow automation tool that connects different apps and services to automate repetitive tasks.</p>
+                        <div class="visual-example">
+                            <div class="flow-diagram">
+                                <div class="flow-node">Gmail</div>
+                                <div class="flow-arrow">→</div>
+                                <div class="flow-node">n8n</div>
+                                <div class="flow-arrow">→</div>
+                                <div class="flow-node">Slack</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="concept-card">
+                        <div class="concept-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Fair-Code</h3>
+                        <p>Open-source with a fair-code license. Free for personal use, paid for commercial use.</p>
+                        <div class="feature-list">
+                            <span class="feature-tag">Self-hosted</span>
+                            <span class="feature-tag">Cloud option</span>
+                            <span class="feature-tag">Community</span>
+                        </div>
+                    </div>
+
+                    <div class="concept-card">
+                        <div class="concept-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <h3>400+ Integrations</h3>
+                        <p>Connect with popular services like Google, Slack, GitHub, databases, and more.</p>
+                        <div class="integration-showcase">
+                            <i class="fab fa-google"></i>
+                            <i class="fab fa-slack"></i>
+                            <i class="fab fa-github"></i>
+                            <i class="fas fa-database"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-exercise">
+                    <h3>🎮 Quick Challenge</h3>
+                    <p>Drag the correct definition to match each term:</p>
+                    <div class="drag-drop-container" id="basicsQuiz">
+                        <div class="terms-column">
+                            <div class="term-card" draggable="true" data-term="workflow">Workflow</div>
+                            <div class="term-card" draggable="true" data-term="automation">Automation</div>
+                            <div class="term-card" draggable="true" data-term="integration">Integration</div>
+                        </div>
+                        <div class="definitions-column">
+                            <div class="definition-slot" data-answer="workflow">
+                                <span class="definition-text">A series of connected tasks that run in sequence</span>
+                            </div>
+                            <div class="definition-slot" data-answer="automation">
+                                <span class="definition-text">Making tasks run automatically without manual intervention</span>
+                            </div>
+                            <div class="definition-slot" data-answer="integration">
+                                <span class="definition-text">Connecting different apps and services together</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="basicsQuizFeedback"></div>
+                </div>
+
+                <button class="next-button" onclick="nextSection('nodes')">
+                    Next: Nodes & Workflows <i class="fas fa-arrow-right"></i>
+                </button>
+            </section>
+
+            <!-- Continue with other sections... -->
+            <section id="nodes" class="content-section">
+                <div class="section-header">
+                    <h2>Nodes & Workflows</h2>
+                    <div class="mnemonic-card">
+                        <h3>🔗 Memory Chain</h3>
+                        <p><strong>N.O.D.E</strong> = <strong>N</strong>ow <strong>O</strong>ur <strong>D</strong>ata <strong>E</strong>xecutes</p>
+                    </div>
+                </div>
+
+                <div class="interactive-workflow-builder">
+                    <h3>🛠️ Interactive Workflow Builder</h3>
+                    <p>Click on different node types to see how they work:</p>
+                    
+                    <div class="workflow-canvas">
+                        <div class="node-palette">
+                            <div class="node-type" data-type="trigger">
+                                <i class="fas fa-play"></i>
+                                <span>Trigger Nodes</span>
+                            </div>
+                            <div class="node-type" data-type="action">
+                                <i class="fas fa-cog"></i>
+                                <span>Action Nodes</span>
+                            </div>
+                            <div class="node-type" data-type="condition">
+                                <i class="fas fa-code-branch"></i>
+                                <span>Logic Nodes</span>
+                            </div>
+                        </div>
+
+                        <div class="workflow-area">
+                            <div class="workflow-example">
+                                <div class="workflow-node trigger-node active" data-info="trigger">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>Email Trigger</span>
+                                </div>
+                                <div class="workflow-connector"></div>
+                                <div class="workflow-node action-node" data-info="action">
+                                    <i class="fas fa-filter"></i>
+                                    <span>Filter Data</span>
+                                </div>
+                                <div class="workflow-connector"></div>
+                                <div class="workflow-node action-node" data-info="final">
+                                    <i class="fab fa-slack"></i>
+                                    <span>Send to Slack</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="node-info-panel" id="nodeInfoPanel">
+                        <h4>Trigger Nodes</h4>
+                        <p>Start your workflow when specific events happen (new email, webhook, schedule, etc.)</p>
+                        <ul>
+                            <li>📧 Email Trigger - New email received</li>
+                            <li>⏰ Cron Trigger - Schedule-based execution</li>
+                            <li>🔗 Webhook Trigger - HTTP requests</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button class="next-button" onclick="nextSection('triggers')">
+                    Next: Triggers <i class="fas fa-arrow-right"></i>
+                </button>
+            </section>
+
+            <!-- Add more sections for triggers, actions, examples, and quiz -->
+            <section id="triggers" class="content-section">
+                <div class="section-header">
+                    <h2>Triggers - Starting Your Workflows</h2>
+                    <div class="mnemonic-card">
+                        <h3>⚡ Power Phrase</h3>
+                        <p><strong>"Triggers Fire First"</strong> - They're always the starting point of any workflow!</p>
+                    </div>
+                </div>
+
+                <!-- Trigger content -->
+                <div class="trigger-showcase">
+                    <div class="trigger-card" data-trigger="webhook">
+                        <i class="fas fa-globe"></i>
+                        <h3>Webhook Trigger</h3>
+                        <p>Responds to HTTP requests from external services</p>
+                        <div class="example-code">POST /webhook/abc123</div>
+                    </div>
+                    <div class="trigger-card" data-trigger="schedule">
+                        <i class="fas fa-clock"></i>
+                        <h3>Schedule Trigger</h3>
+                        <p>Runs workflows on a time-based schedule</p>
+                        <div class="example-code">Every day at 9:00 AM</div>
+                    </div>
+                    <div class="trigger-card" data-trigger="manual">
+                        <i class="fas fa-hand-pointer"></i>
+                        <h3>Manual Trigger</h3>
+                        <p>Start workflows manually with a button click</p>
+                        <div class="example-code">Click to execute</div>
+                    </div>
+                </div>
+
+                <button class="next-button" onclick="nextSection('actions')">
+                    Next: Actions <i class="fas fa-arrow-right"></i>
+                </button>
+            </section>
+
+            <section id="actions" class="content-section">
+                <div class="section-header">
+                    <h2>Actions - The Work Horses</h2>
+                    <div class="mnemonic-card">
+                        <h3>🐎 Action Heroes</h3>
+                        <p><strong>C.R.U.D</strong> = <strong>C</strong>reate, <strong>R</strong>ead, <strong>U</strong>pdate, <strong>D</strong>elete - The four action superpowers!</p>
+                    </div>
+                </div>
+
+                <div class="action-playground">
+                    <h3>🎪 Action Playground</h3>
+                    <p>Experiment with different action types:</p>
+                    
+                    <div class="action-tabs">
+                        <button class="tab-button active" data-tab="http">HTTP Request</button>
+                        <button class="tab-button" data-tab="email">Send Email</button>
+                        <button class="tab-button" data-tab="database">Database</button>
+                        <button class="tab-button" data-tab="transform">Transform Data</button>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="http">
+                            <h4>HTTP Request Node</h4>
+                            <p>Make API calls to any web service</p>
+                            <div class="code-example">
+                                <pre><code>GET https://api.example.com/users
+Authorization: Bearer token123</code></pre>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="email">
+                            <h4>Email Node</h4>
+                            <p>Send emails via SMTP or email services</p>
+                            <div class="email-preview">
+                                <div class="email-field">To: user@example.com</div>
+                                <div class="email-field">Subject: Welcome to n8n!</div>
+                                <div class="email-field">Body: Your automation journey begins...</div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="database">
+                            <h4>Database Nodes</h4>
+                            <p>Connect to MySQL, PostgreSQL, MongoDB, and more</p>
+                            <div class="code-example">
+                                <pre><code>SELECT * FROM users WHERE active = 1</code></pre>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="transform">
+                            <h4>Transform Data</h4>
+                            <p>Modify, filter, and reshape your data</p>
+                            <div class="transform-example">
+                                <div class="data-flow">
+                                    <span class="data-input">{"name": "John", "age": 30}</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span class="data-output">{"fullName": "John Doe", "isAdult": true}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="next-button" onclick="nextSection('examples')">
+                    Next: Examples <i class="fas fa-arrow-right"></i>
+                </button>
+            </section>
+
+            <section id="examples" class="content-section">
+                <div class="section-header">
+                    <h2>Real-World Examples</h2>
+                    <div class="mnemonic-card">
+                        <h3>🌟 Success Stories</h3>
+                        <p><strong>"See It, Believe It, Build It"</strong> - Examples make everything click!</p>
+                    </div>
+                </div>
+
+                <div class="examples-carousel">
+                    <div class="example-card active">
+                        <h3>📧 Email to Slack Automation</h3>
+                        <div class="workflow-visual">
+                            <div class="mini-node">📬 Gmail</div>
+                            <div class="mini-arrow">→</div>
+                            <div class="mini-node">🔍 Filter</div>
+                            <div class="mini-arrow">→</div>
+                            <div class="mini-node">💬 Slack</div>
+                        </div>
+                        <p>Automatically post important emails to your team's Slack channel</p>
+                        <div class="use-case">Perfect for: Customer support, sales alerts, system notifications</div>
+                    </div>
+
+                    <div class="example-card">
+                        <h3>🗃️ Database Backup Scheduler</h3>
+                        <div class="workflow-visual">
+                            <div class="mini-node">⏰ Schedule</div>
+                            <div class="mini-arrow">→</div>
+                            <div class="mini-node">🗄️ MySQL</div>
+                            <div class="mini-arrow">→</div>
+                            <div class="mini-node">☁️ AWS S3</div>
+                        </div>
+                        <p>Daily automatic database backups to cloud storage</p>
+                        <div class="use-case">Perfect for: Data protection, compliance, peace of mind</div>
+                    </div>
+
+                    <div class="example-card">
+                        <h3>📊 Social Media Monitor</h3>
+                        <div class="workflow-visual">
+                            <div class="mini-node">🔗 Webhook</div>
+                            <div class="mini-arrow">→</div>
+                            <div class="mini-node">📋 Airtable</div>
+                            <div class="mini-arrow">→</div>
+                            <div class="mini-node">📈 Analytics</div>
+                        </div>
+                        <p>Track brand mentions and save them to a spreadsheet</p>
+                        <div class="use-case">Perfect for: Marketing, brand monitoring, competitor analysis</div>
+                    </div>
+                </div>
+
+                <div class="carousel-controls">
+                    <button class="carousel-btn" onclick="prevExample()">‹</button>
+                    <div class="carousel-dots">
+                        <span class="dot active" onclick="showExample(0)"></span>
+                        <span class="dot" onclick="showExample(1)"></span>
+                        <span class="dot" onclick="showExample(2)"></span>
+                    </div>
+                    <button class="carousel-btn" onclick="nextExample()">›</button>
+                </div>
+
+                <button class="next-button" onclick="nextSection('quiz')">
+                    Final Challenge! <i class="fas fa-trophy"></i>
+                </button>
+            </section>
+
+            <section id="quiz" class="content-section">
+                <div class="section-header">
+                    <h2>🏆 Final Challenge</h2>
+                    <div class="mnemonic-card">
+                        <h3>🎯 Victory Mindset</h3>
+                        <p><strong>"Test, Learn, Master"</strong> - Every expert was once a beginner who never gave up!</p>
+                    </div>
+                </div>
+
+                <div class="quiz-container" id="finalQuiz">
+                    <div class="quiz-question active" data-question="0">
+                        <h3>Question 1 of 5</h3>
+                        <p>What does n8n stand for?</p>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-answer="wrong">Node 8 Network</button>
+                            <button class="quiz-option" data-answer="correct">Nodemation (node + automation)</button>
+                            <button class="quiz-option" data-answer="wrong">Next Generation Network</button>
+                            <button class="quiz-option" data-answer="wrong">Network 8 Nodes</button>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" data-question="1">
+                        <h3>Question 2 of 5</h3>
+                        <p>Which type of node starts a workflow?</p>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-answer="wrong">Action Node</button>
+                            <button class="quiz-option" data-answer="correct">Trigger Node</button>
+                            <button class="quiz-option" data-answer="wrong">Logic Node</button>
+                            <button class="quiz-option" data-answer="wrong">Transform Node</button>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" data-question="2">
+                        <h3>Question 3 of 5</h3>
+                        <p>How many integrations does n8n support?</p>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-answer="wrong">100+</button>
+                            <button class="quiz-option" data-answer="wrong">200+</button>
+                            <button class="quiz-option" data-answer="correct">400+</button>
+                            <button class="quiz-option" data-answer="wrong">600+</button>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" data-question="3">
+                        <h3>Question 4 of 5</h3>
+                        <p>What is n8n's licensing model?</p>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-answer="wrong">Completely free</button>
+                            <button class="quiz-option" data-answer="correct">Fair-code (free personal, paid commercial)</button>
+                            <button class="quiz-option" data-answer="wrong">Subscription only</button>
+                            <button class="quiz-option" data-answer="wrong">One-time purchase</button>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" data-question="4">
+                        <h3>Question 5 of 5</h3>
+                        <p>Which node type would you use to make an API call?</p>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-answer="wrong">Email Node</button>
+                            <button class="quiz-option" data-answer="correct">HTTP Request Node</button>
+                            <button class="quiz-option" data-answer="wrong">Schedule Node</button>
+                            <button class="quiz-option" data-answer="wrong">Webhook Node</button>
+                        </div>
+                    </div>
+
+                    <div class="quiz-results" id="quizResults" style="display: none;">
+                        <div class="results-content">
+                            <div class="results-score">
+                                <div class="score-circle">
+                                    <span id="finalScore">0</span>
+                                    <small>/5</small>
+                                </div>
+                            </div>
+                            <h2 id="resultsTitle">Congratulations!</h2>
+                            <p id="resultsMessage">You've completed the n8n crash course!</p>
+                            <div class="achievements">
+                                <div class="achievement-badge">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <span>Course Completed</span>
+                                </div>
+                                <div class="achievement-badge" id="perfectScore" style="display: none;">
+                                    <i class="fas fa-star"></i>
+                                    <span>Perfect Score</span>
+                                </div>
+                            </div>
+                            <button class="restart-button" onclick="restartCourse()">
+                                <i class="fas fa-redo"></i>
+                                Take Course Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-navigation">
+                    <button class="quiz-nav-btn" id="prevBtn" onclick="prevQuestion()" style="display: none;">Previous</button>
+                    <div class="quiz-progress">
+                        <span id="questionNumber">1</span> of 5
+                    </div>
+                    <button class="quiz-nav-btn" id="nextBtn" onclick="nextQuestion()" style="display: none;">Next</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Achievement Popup -->
+        <div class="achievement-popup" id="achievementPopup">
+            <div class="achievement-content">
+                <i class="fas fa-trophy"></i>
+                <h3>Achievement Unlocked!</h3>
+                <p id="achievementText"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

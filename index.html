@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Platform - Master New Skills</title>
+    <meta name="description" content="Discover and master new skills with our comprehensive learning platform. From automation to programming, find the perfect course for you.">
+    
+    <!-- Framework CSS -->
+    <link rel="stylesheet" href="./assets/css/framework.css">
+    
+    <!-- Dashboard Specific Styles -->
+    <style>
+        /* Dashboard Specific Styles */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: var(--space-3xl) 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-lg);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: var(--space-2xl);
+            max-width: 600px;
+        }
+
+        .search-hero {
+            max-width: 600px;
+            margin: 0 auto var(--space-2xl);
+        }
+
+        .search-hero .search-input {
+            font-size: 1.125rem;
+            padding: var(--space-lg);
+            border: none;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: var(--space-2xl);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Course Grid Styles */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-lg);
+        }
+
+        .course-card {
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+        }
+
+        .course-badges {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .course-title {
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .course-description {
+            color: var(--text-secondary);
+            flex: 1;
+            margin-bottom: var(--space-md);
+        }
+
+        .course-meta {
+            display: flex;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .rating-stars {
+            color: #ffd700;
+        }
+
+        .course-tags {
+            display: flex;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .progress-container {
+            margin-bottom: var(--space-md);
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: var(--space-xs);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: var(--space-3xl) 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-md);
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: var(--card-background);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: var(--space-lg);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+
+        .filter-select {
+            min-width: 150px;
+        }
+
+        /* Category Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-lg);
+        }
+
+        .category-card {
+            text-align: center;
+            padding: var(--space-2xl);
+            background: var(--card-background);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+
+        .category-count {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-stats {
+                gap: var(--space-lg);
+            }
+
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-3xl);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-lg);
+        }
+
+        .empty-state-title {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-md);
+        }
+
+        .empty-state-text {
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content text-center">
+                <h1 class="hero-title">Master New Skills</h1>
+                <p class="hero-subtitle">
+                    Discover comprehensive courses designed to help you learn efficiently and effectively. 
+                    From automation to programming, level up your expertise with our interactive learning platform.
+                </p>
+                
+                <!-- Hero Search -->
+                <div class="search-hero">
+                    <div class="search-container">
+                        <input 
+                            type="text" 
+                            id="search-input" 
+                            class="form-input search-input" 
+                            placeholder="Search for courses, skills, or topics..."
+                            aria-label="Search courses"
+                        >
+                        <div class="search-icon">🔍</div>
+                    </div>
+                </div>
+                
+                <!-- Platform Stats -->
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="total-courses">6</span>
+                        <span class="stat-label">Courses</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="total-students">8,936</span>
+                        <span class="stat-label">Students</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">4.7</span>
+                        <span class="stat-label">Avg Rating</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Success Rate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Featured Courses Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Featured Courses</h2>
+                    <p class="section-subtitle">
+                        Handpicked courses that are trending and highly recommended by our community
+                    </p>
+                </div>
+                
+                <div id="featured-courses" class="course-grid">
+                    <!-- Featured courses will be loaded here -->
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Browse by Category Section -->
+        <section class="section" style="background: var(--background-color);">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Browse by Category</h2>
+                    <p class="section-subtitle">
+                        Explore courses organized by subject areas and find exactly what you're looking for
+                    </p>
+                </div>
+                
+                <div class="category-grid">
+                    <div class="category-card" data-category="Automation">
+                        <div class="category-icon">⚙️</div>
+                        <h3 class="category-title">Automation</h3>
+                        <p class="category-count"><span id="automation-count">2</span> courses</p>
+                    </div>
+                    
+                    <div class="category-card" data-category="Programming">
+                        <div class="category-icon">💻</div>
+                        <h3 class="category-title">Programming</h3>
+                        <p class="category-count"><span id="programming-count">1</span> courses</p>
+                    </div>
+                    
+                    <div class="category-card" data-category="Web Development">
+                        <div class="category-icon">🌐</div>
+                        <h3 class="category-title">Web Development</h3>
+                        <p class="category-count"><span id="web-dev-count">1</span> courses</p>
+                    </div>
+                    
+                    <div class="category-card" data-category="Data Science">
+                        <div class="category-icon">📊</div>
+                        <h3 class="category-title">Data Science</h3>
+                        <p class="category-count"><span id="data-science-count">2</span> courses</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommended for You Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Recommended for You</h2>
+                    <p class="section-subtitle">
+                        Personalized course recommendations based on your interests and learning history
+                    </p>
+                </div>
+                
+                <div id="recommended-courses" class="course-grid">
+                    <!-- Recommended courses will be loaded here -->
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- All Courses Section -->
+        <section class="section" style="background: var(--background-color);">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">All Courses</h2>
+                    <p class="section-subtitle">
+                        Browse our complete catalog of courses with advanced filtering options
+                    </p>
+                </div>
+                
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label class="form-label">Category</label>
+                            <select id="category-filter" class="form-input filter-select" data-filter="category">
+                                <option value="">All Categories</option>
+                                <option value="Automation">Automation</option>
+                                <option value="Programming">Programming</option>
+                                <option value="Web Development">Web Development</option>
+                                <option value="Data Science">Data Science</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label class="form-label">Difficulty</label>
+                            <select id="difficulty-filter" class="form-input filter-select" data-filter="difficulty">
+                                <option value="">All Levels</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label class="form-label">Duration</label>
+                            <select id="duration-filter" class="form-input filter-select" data-filter="duration">
+                                <option value="">Any Duration</option>
+                                <option value="60">Under 1 hour</option>
+                                <option value="120">Under 2 hours</option>
+                                <option value="300">Under 5 hours</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label class="form-label">Rating</label>
+                            <select id="rating-filter" class="form-input filter-select" data-filter="rating">
+                                <option value="">Any Rating</option>
+                                <option value="4.5">4.5+ Stars</option>
+                                <option value="4.0">4.0+ Stars</option>
+                                <option value="3.5">3.5+ Stars</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="all-courses" class="course-grid">
+                    <!-- All courses will be loaded here -->
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Results Section (Initially Hidden) -->
+        <section id="search-results-section" class="section" style="display: none;">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Search Results</h2>
+                    <p id="search-results-count" class="section-subtitle"></p>
+                </div>
+                
+                <div id="search-results" class="course-grid">
+                    <!-- Search results will be displayed here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--text-primary); color: white; padding: var(--space-2xl) 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 Learning Platform. Built with ❤️ for lifelong learners.</p>
+        </div>
+    </footer>
+
+    <!-- Framework JavaScript -->
+    <script src="./assets/js/framework.js"></script>
+    
+    <!-- Dashboard JavaScript -->
+    <script>
+        class Dashboard {
+            constructor() {
+                this.framework = window.learningFramework;
+                this.currentFilters = {};
+                this.init();
+            }
+
+            init() {
+                // Wait for framework to be ready
+                if (!this.framework) {
+                    setTimeout(() => this.init(), 100);
+                    return;
+                }
+
+                this.setupEventListeners();
+                this.loadContent();
+            }
+
+            setupEventListeners() {
+                // Search functionality
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) {
+                    let searchTimeout;
+                    searchInput.addEventListener('input', (e) => {
+                        clearTimeout(searchTimeout);
+                        searchTimeout = setTimeout(() => {
+                            this.handleSearch(e.target.value);
+                        }, 300);
+                    });
+                }
+
+                // Filter functionality
+                const filterElements = document.querySelectorAll('[data-filter]');
+                filterElements.forEach(element => {
+                    element.addEventListener('change', () => {
+                        this.handleFiltersChange();
+                    });
+                });
+
+                // Category cards
+                const categoryCards = document.querySelectorAll('[data-category]');
+                categoryCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const category = card.dataset.category;
+                        this.filterByCategory(category);
+                    });
+                });
+
+                // Course cards - handled by framework
+            }
+
+            loadContent() {
+                this.updateStats();
+                this.loadFeaturedCourses();
+                this.loadRecommendedCourses();
+                this.loadAllCourses();
+                this.updateCategoryCounts();
+            }
+
+            updateStats() {
+                const totalCourses = this.framework.getAllCourses().length;
+                const totalStudents = this.framework.getAllCourses()
+                    .reduce((sum, course) => sum + course.enrollments, 0);
+
+                document.getElementById('total-courses').textContent = totalCourses;
+                document.getElementById('total-students').textContent = totalStudents.toLocaleString();
+            }
+
+            loadFeaturedCourses() {
+                const featuredCourses = this.framework.getFeaturedCourses();
+                this.renderCourses(featuredCourses, 'featured-courses');
+            }
+
+            loadRecommendedCourses() {
+                const recommendations = this.framework.getRecommendations(6);
+                this.renderCourses(recommendations, 'recommended-courses');
+            }
+
+            loadAllCourses() {
+                const allCourses = this.framework.getAllCourses();
+                this.renderCourses(allCourses, 'all-courses');
+            }
+
+            updateCategoryCounts() {
+                const categories = ['Automation', 'Programming', 'Web Development', 'Data Science'];
+                categories.forEach(category => {
+                    const count = this.framework.getCoursesByCategory(category).length;
+                    const elementId = category.toLowerCase().replace(/\s+/g, '-') + '-count';
+                    const element = document.getElementById(elementId);
+                    if (element) {
+                        element.textContent = count;
+                    }
+                });
+            }
+
+            renderCourses(courses, containerId) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+
+                if (courses.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📚</div>
+                            <h3 class="empty-state-title">No courses found</h3>
+                            <p class="empty-state-text">Try adjusting your search or filters</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = courses.map(course => this.renderCourseCard(course)).join('');
+            }
+
+            renderCourseCard(course) {
+                const progress = this.framework.getCourseProgress(course.id);
+                const progressPercent = Math.round((progress.completed / progress.total) * 100);
+                const isCompleted = this.framework.currentUser.completedCourses.includes(course.id);
+                const isInProgress = this.framework.currentUser.inProgressCourses.includes(course.id);
+
+                return `
+                    <div class="card course-card" data-course-id="${course.id}">
+                        <div class="card-header" style="position: relative; padding: 0;">
+                            <img src="${course.thumbnail}" alt="${course.title}" class="course-thumbnail">
+                            <div class="course-badges">
+                                ${course.isNew ? '<span class="badge badge-info">New</span>' : ''}
+                                ${course.isFeatured ? '<span class="badge badge-warning">Featured</span>' : ''}
+                                ${isCompleted ? '<span class="badge badge-success">Completed</span>' : ''}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="course-title">${course.title}</h3>
+                            <p class="course-description">${course.description}</p>
+                            
+                            <div class="course-meta">
+                                <span class="tag">${course.category}</span>
+                                <span class="tag">${course.difficulty}</span>
+                                <span class="text-muted">${this.framework.formatDuration(course.duration)}</span>
+                            </div>
+                            
+                            <div class="course-stats">
+                                <div class="rating">
+                                    <span class="rating-stars">${this.renderStarRating(course.rating)}</span>
+                                    <span class="rating-value">${course.rating}</span>
+                                </div>
+                                <span class="enrollments text-muted">${course.enrollments.toLocaleString()} students</span>
+                            </div>
+                            
+                            ${isInProgress ? `
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: ${progressPercent}%"></div>
+                                    </div>
+                                    <div class="progress-text">${progressPercent}% complete</div>
+                                </div>
+                            ` : ''}
+                            
+                            <div class="course-tags">
+                                ${course.tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                ${course.tags.length > 3 ? `<span class="tag">+${course.tags.length - 3} more</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary" onclick="handleCourseClick('${course.id}')">
+                                ${isCompleted ? 'Review Course' : isInProgress ? 'Continue Learning' : 'Start Course'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderStarRating(rating) {
+                const fullStars = Math.floor(rating);
+                const hasHalfStar = rating % 1 !== 0;
+                const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                
+                return [
+                    '★'.repeat(fullStars),
+                    hasHalfStar ? '☆' : '',
+                    '☆'.repeat(emptyStars)
+                ].join('');
+            }
+
+            handleSearch(query) {
+                const searchResultsSection = document.getElementById('search-results-section');
+                const searchResultsCount = document.getElementById('search-results-count');
+                
+                if (!query || query.trim().length === 0) {
+                    searchResultsSection.style.display = 'none';
+                    return;
+                }
+
+                const results = this.framework.search(query);
+                
+                searchResultsSection.style.display = 'block';
+                searchResultsCount.textContent = `Found ${results.length} course${results.length !== 1 ? 's' : ''} for "${query}"`;
+                
+                this.renderCourses(results, 'search-results');
+                
+                // Scroll to results
+                searchResultsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            handleFiltersChange() {
+                const categoryFilter = document.getElementById('category-filter').value;
+                const difficultyFilter = document.getElementById('difficulty-filter').value;
+                const durationFilter = document.getElementById('duration-filter').value;
+                const ratingFilter = document.getElementById('rating-filter').value;
+
+                this.currentFilters = {
+                    category: categoryFilter || null,
+                    difficulty: difficultyFilter || null,
+                    maxDuration: durationFilter ? parseInt(durationFilter) : null,
+                    minRating: ratingFilter ? parseFloat(ratingFilter) : 0
+                };
+
+                this.applyFilters();
+            }
+
+            applyFilters() {
+                const searchInput = document.getElementById('search-input');
+                const query = searchInput.value;
+                
+                const results = this.framework.search(query, this.currentFilters);
+                this.renderCourses(results, 'all-courses');
+            }
+
+            filterByCategory(category) {
+                // Set the category filter
+                const categoryFilter = document.getElementById('category-filter');
+                categoryFilter.value = category;
+                
+                // Apply filters
+                this.handleFiltersChange();
+                
+                // Scroll to all courses section
+                document.getElementById('all-courses').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Global function to handle course clicks
+        function handleCourseClick(courseId) {
+            const course = window.learningFramework.getCourse(courseId);
+            if (course) {
+                if (course.path === '#coming-soon') {
+                    alert('This course is coming soon! Stay tuned for updates.');
+                } else {
+                    window.learningFramework.startCourse(courseId);
+                }
+            }
+        }
+
+        // Initialize dashboard when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new Dashboard();
+        });
+    </script>
+</body>
+</html>
