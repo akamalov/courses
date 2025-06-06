@@ -25,6 +25,219 @@ class LearningFramework {
         this.setupEventListeners();
         this.buildSearchIndex();
         this.calculateRecommendations();
+        this.setupAuthIntegration();
+    }
+
+    // Authentication Integration
+    setupAuthIntegration() {
+        if (window.authManager) {
+            // Listen for auth events
+            window.authManager.on('login', (user) => {
+                this.currentUser = user;
+                this.updateUIForAuthenticatedUser();
+                this.calculatePersonalizedRecommendations();
+            });
+
+            window.authManager.on('logout', () => {
+                this.currentUser = null;
+                this.updateUIForUnauthenticatedUser();
+            });
+
+            window.authManager.on('sessionRestored', (user) => {
+                this.currentUser = user;
+                this.updateUIForAuthenticatedUser();
+                this.calculatePersonalizedRecommendations();
+            });
+
+            // Initial UI update based on auth state
+            if (window.authManager.isAuthenticated()) {
+                this.currentUser = window.authManager.getCurrentUser();
+                this.updateUIForAuthenticatedUser();
+                this.calculatePersonalizedRecommendations();
+            } else {
+                this.updateUIForUnauthenticatedUser();
+            }
+        }
+    }
+
+    updateUIForAuthenticatedUser() {
+        const loginBtn = document.getElementById('login-btn');
+        const userProfile = document.getElementById('user-profile');
+        const personalizedDashboard = document.getElementById('personalized-dashboard');
+        
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (userProfile) userProfile.style.display = 'flex';
+        if (personalizedDashboard) personalizedDashboard.style.display = 'block';
+        
+        this.updateUserProfileUI();
+        this.renderPersonalizedDashboard();
+    }
+
+    updateUIForUnauthenticatedUser() {
+        const loginBtn = document.getElementById('login-btn');
+        const userProfile = document.getElementById('user-profile');
+        const personalizedDashboard = document.getElementById('personalized-dashboard');
+        
+        if (loginBtn) loginBtn.style.display = 'block';
+        if (userProfile) userProfile.style.display = 'none';
+        if (personalizedDashboard) personalizedDashboard.style.display = 'none';
+    }
+
+    updateUserProfileUI() {
+        if (!this.currentUser) return;
+        
+        const userName = document.getElementById('user-name');
+        const userPoints = document.getElementById('user-points');
+        const userAvatar = document.getElementById('user-avatar');
+        const dropdownName = document.getElementById('dropdown-name');
+        const dropdownEmail = document.getElementById('dropdown-email');
+        const dropdownAvatar = document.getElementById('dropdown-avatar');
+        const statPoints = document.getElementById('stat-points');
+        const statStreak = document.getElementById('stat-streak');
+        const statCourses = document.getElementById('stat-courses');
+        
+        if (userName) userName.textContent = this.currentUser.firstName;
+        if (userPoints) userPoints.textContent = `${this.currentUser.totalPoints} pts`;
+        if (userAvatar) userAvatar.src = this.currentUser.avatar;
+        if (dropdownName) dropdownName.textContent = `${this.currentUser.firstName} ${this.currentUser.lastName}`;
+        if (dropdownEmail) dropdownEmail.textContent = this.currentUser.email;
+        if (dropdownAvatar) dropdownAvatar.src = this.currentUser.avatar;
+        if (statPoints) statPoints.textContent = this.currentUser.totalPoints;
+        if (statStreak) statStreak.textContent = this.currentUser.learningStreak;
+        if (statCourses) statCourses.textContent = this.currentUser.coursesEnrolled.length;
+    }
+
+    renderPersonalizedDashboard() {
+        if (!this.currentUser) return;
+        
+        this.renderWelcomeBanner();
+        this.renderCurrentCourses();
+        this.renderAchievements();
+    }
+
+    renderWelcomeBanner() {
+        const welcomeMessage = document.getElementById('welcome-message');
+        const welcomeSubtitle = document.getElementById('welcome-subtitle');
+        
+        if (welcomeMessage) {
+            welcomeMessage.textContent = `Welcome back, ${this.currentUser.firstName}!`;
+        }
+        
+        if (welcomeSubtitle) {
+            const messages = [
+                "Ready to continue your learning journey? You're doing great!",
+                "Let's make today another step forward in your learning!",
+                "Your dedication to learning is inspiring. Keep it up!",
+                "Time to unlock new skills and expand your knowledge!"
+            ];
+            welcomeSubtitle.textContent = messages[Math.floor(Math.random() * messages.length)];
+        }
+    }
+
+    renderCurrentCourses() {
+        const container = document.getElementById('current-courses-list');
+        if (!container || !this.currentUser) return;
+        
+        const currentCourses = this.currentUser.coursesInProgress || [];
+        
+        if (currentCourses.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">📚</div>
+                    <h4 class="empty-state-title">No courses in progress</h4>
+                    <p class="empty-state-text">Browse our catalog and start learning something new!</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('featured-courses').scrollIntoView()">
+                        Explore Courses
+                    </button>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = currentCourses.map(courseId => {
+            const course = this.getCourse(courseId);
+            if (!course) return '';
+            
+            const progress = this.currentUser.courseProgress?.[courseId] || { completed: 0, total: 100 };
+            const progressPercent = Math.round((progress.completed / progress.total) * 100);
+            
+            return `
+                <a href="${course.path}" class="current-course">
+                    <div class="course-thumbnail">${course.title.charAt(0)}</div>
+                    <div class="course-details">
+                        <h4>${course.title}</h4>
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                            </div>
+                            <span class="progress-text">${progressPercent}%</span>
+                        </div>
+                        <div class="course-meta">${course.category} • ${this.formatDuration(course.duration)}</div>
+                    </div>
+                </a>
+            `;
+        }).join('');
+    }
+
+    renderAchievements() {
+        const container = document.getElementById('achievements-grid');
+        if (!container || !this.currentUser) return;
+        
+        const achievements = {
+            'first-course': { icon: '🎯', name: 'First Course' },
+            'week-streak': { icon: '🔥', name: 'Week Streak' },
+            'month-streak': { icon: '⚡', name: 'Month Streak' },
+            'points-500': { icon: '💎', name: '500 Points' },
+            'course-complete': { icon: '🏆', name: 'Course Master' }
+        };
+        
+        const userAchievements = this.currentUser.achievements || [];
+        
+        if (userAchievements.length === 0) {
+            container.innerHTML = `
+                <div class="achievement-badge">
+                    <span class="achievement-icon">🎯</span>
+                    <p class="achievement-name">Start Learning</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = userAchievements.map(achievementId => {
+            const achievement = achievements[achievementId];
+            if (!achievement) return '';
+            
+            return `
+                <div class="achievement-badge">
+                    <span class="achievement-icon">${achievement.icon}</span>
+                    <p class="achievement-name">${achievement.name}</p>
+                </div>
+            `;
+        }).join('');
+    }
+
+    calculatePersonalizedRecommendations() {
+        if (!this.currentUser || !window.authManager) return;
+        
+        const personalizedCourses = window.authManager.getPersonalizedRecommendations(
+            this.getAllCourses(), 
+            6
+        );
+        
+        // Update recommendations section
+        this.renderCourseGrid(personalizedCourses, 'recommended-courses');
+    }
+
+    renderCourseGrid(courses, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        if (!courses || courses.length === 0) {
+            container.innerHTML = '<div class="empty-state"><p>No courses found</p></div>';
+            return;
+        }
+        
+        container.innerHTML = courses.map(course => this.renderCourseCard(course)).join('');
     }
 
     // Course Management

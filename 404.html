@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Learning Platform</title>
+    <link rel="stylesheet" href="./assets/css/framework.css">
+    <link rel="stylesheet" href="./assets/css/auth.css">
+    <style>
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+        }
+        
+        .error-content {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .error-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .error-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .error-btn {
+            padding: 0.875rem 1.5rem;
+            border: 2px solid white;
+            border-radius: 8px;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .error-btn:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .error-btn.primary {
+            background: white;
+            color: var(--primary-color);
+        }
+        
+        .error-btn.primary:hover {
+            background: transparent;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 6rem;
+            }
+            
+            .error-title {
+                font-size: 1.5rem;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Oops! Page Not Found</h1>
+            <p class="error-description">
+                The page you're looking for seems to have wandered off on its own learning journey. 
+                Don't worry, there's plenty more to explore!
+            </p>
+            <div class="error-actions">
+                <a href="/" class="error-btn primary">
+                    🏠 Back to Home
+                </a>
+                <a href="/courses/" class="error-btn">
+                    📚 Browse Courses
+                </a>
+                <a href="javascript:history.back()" class="error-btn">
+                    ← Go Back
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add some fun animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const errorCode = document.querySelector('.error-code');
+            errorCode.style.animation = 'bounce 2s infinite';
+        });
+        
+        // Add bounce animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes bounce {
+                0%, 20%, 53%, 80%, 100% {
+                    transform: translate3d(0,0,0);
+                }
+                40%, 43% {
+                    transform: translate3d(0,-30px,0);
+                }
+                70% {
+                    transform: translate3d(0,-15px,0);
+                }
+                90% {
+                    transform: translate3d(0,-4px,0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html> 

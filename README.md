@@ -93,7 +93,14 @@ learning-platform/
 
 ## 🛠 Technical Details
 
+### Deployment Options
+- **🐳 Docker**: Containerized deployment with Nginx web server
+- **📄 Static Hosting**: Direct deployment to any static hosting service
+- **🔧 Development Server**: Local development with Python HTTP server
+- **☁️ Cloud Ready**: Easy deployment to cloud platforms
+
 ### Core Framework Features
+- **🔐 Authentication System**: User login with personalized dashboard
 - **Course Registration System**: Easy addition of new courses
 - **Search Engine**: Full-text search with scoring and relevance ranking
 - **Recommendation Algorithm**: ML-style recommendations based on user behavior
@@ -115,11 +122,36 @@ learning-platform/
 
 ## 🚀 Getting Started
 
+### Option 1: Docker (Recommended)
+
+```bash
+# Using Docker Compose
+docker-compose up -d
+
+# Access the platform
+open http://localhost:8080
+```
+
+### Option 2: Local Development
+
+```bash
+# Start a local server
+python3 -m http.server 8000
+
+# Access the platform
+open http://localhost:8000
+```
+
+### Demo Account
+- **Email**: `demo@learningplatform.com`
+- **Password**: `demo123`
+
 ### Quick Start
 1. **Clone or download** the repository
-2. **Open `index.html`** in any modern web browser
-3. **Explore courses** using search, filters, or category browsing
-4. **Start learning** with the featured n8n crash course
+2. **Choose deployment method** (Docker or local server)
+3. **Login with demo account** to see personalized features
+4. **Explore courses** using search, filters, or category browsing
+5. **Start learning** with the featured n8n crash course
 
 ### For Developers
 1. **Add new courses** by registering them in `assets/js/framework.js`
@@ -197,6 +229,10 @@ We welcome contributions! Here's how you can help:
 2. Follow the existing course structure
 3. Register your course in the framework
 4. Test thoroughly across devices
+
+## 🐳 Docker Documentation
+
+For comprehensive Docker deployment instructions, troubleshooting, and production setup, see [DOCKER.md](DOCKER.md).
 
 ### Improving the Framework
 1. Fork the repository

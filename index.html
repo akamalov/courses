@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning Platform - Master New Skills</title>
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iIzY2N2VlYSIvPjx0ZXh0IHg9IjUwIiB5PSI2MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+8J+UpzwvdGV4dD48L3N2Zz4=" type="image/svg+xml">
     <meta name="description" content="Discover and master new skills with our comprehensive learning platform. From automation to programming, find the perfect course for you.">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     
     <!-- Framework CSS -->
     <link rel="stylesheet" href="./assets/css/framework.css">
+    <link rel="stylesheet" href="./assets/css/auth.css">
     
     <!-- Dashboard Specific Styles -->
     <style>
@@ -325,6 +330,219 @@
     </style>
 </head>
 <body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="navbar-brand">
+                    <a href="/" class="brand-link">
+                        <span class="brand-icon">🎓</span>
+                        <span class="brand-text">Learning Platform</span>
+                    </a>
+                </div>
+                
+                <div class="navbar-content">
+                    <div class="navbar-search">
+                        <input 
+                            type="text" 
+                            id="nav-search" 
+                            class="search-input-nav" 
+                            placeholder="Search courses..."
+                            aria-label="Search courses"
+                        >
+                    </div>
+                    
+                    <div class="navbar-actions">
+                        <!-- User Profile (when authenticated) -->
+                        <div id="user-profile" class="user-profile" style="display: none;">
+                            <div class="user-info">
+                                <span class="user-name" id="user-name">Demo User</span>
+                                <div class="user-points">
+                                    <span class="points-badge" id="user-points">150 pts</span>
+                                </div>
+                            </div>
+                            <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
+                            
+                            <!-- User Dropdown -->
+                            <div id="user-dropdown" class="user-dropdown">
+                                <div class="dropdown-header">
+                                    <div class="dropdown-user-info">
+                                        <img id="dropdown-avatar" class="dropdown-avatar" src="" alt="User Avatar">
+                                        <div class="dropdown-user-details">
+                                            <h3 id="dropdown-name">Demo User</h3>
+                                            <p id="dropdown-email">demo@learningplatform.com</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="user-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-value" id="stat-points">150</span>
+                                            <span class="stat-label">Points</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value" id="stat-streak">5</span>
+                                            <span class="stat-label">Streak</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value" id="stat-courses">2</span>
+                                            <span class="stat-label">Courses</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" onclick="window.location.href='#'">
+                                        📊 Dashboard
+                                    </button>
+                                    <button class="dropdown-item" onclick="window.location.href='#'">
+                                        👤 Profile
+                                    </button>
+                                    <button class="dropdown-item" onclick="window.location.href='#'">
+                                        ⚙️ Settings
+                                    </button>
+                                    <button class="dropdown-item" onclick="window.location.href='#'">
+                                        🏆 Achievements
+                                    </button>
+                                    <button class="dropdown-item logout" onclick="handleLogout()">
+                                        🚪 Logout
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Login Button (when not authenticated) -->
+                        <button id="login-btn" class="login-button" onclick="showAuthModal()">
+                            Sign In
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="auth-modal">
+        <div class="auth-modal-content">
+            <button class="auth-close" onclick="hideAuthModal()">&times;</button>
+            
+            <div class="auth-modal-header">
+                <h2 id="auth-title">Sign In</h2>
+                <p id="auth-subtitle">Welcome back! Please sign in to your account.</p>
+            </div>
+            
+            <div id="auth-error" class="auth-error"></div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form" style="display: block;" novalidate>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input 
+                        type="text" 
+                        id="login-email" 
+                        class="form-input" 
+                        placeholder="Enter your email"
+                        onload="this.removeAttribute('required')"
+                        onfocus="this.removeAttribute('required')"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input 
+                        type="password" 
+                        id="login-password" 
+                        class="form-input" 
+                        placeholder="Enter your password"
+                        onload="this.removeAttribute('required')"
+                        onfocus="this.removeAttribute('required')"
+                    >
+                </div>
+                
+                <button type="submit" class="auth-button">Sign In</button>
+            </form>
+            
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form" style="display: none;" novalidate>
+                <div class="form-group">
+                    <label for="register-firstname">First Name</label>
+                    <input 
+                        type="text" 
+                        id="register-firstname" 
+                        class="form-input" 
+                        placeholder="Enter your first name"
+                        onload="this.removeAttribute('required')"
+                        onfocus="this.removeAttribute('required')"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-lastname">Last Name</label>
+                    <input 
+                        type="text" 
+                        id="register-lastname" 
+                        class="form-input" 
+                        placeholder="Enter your last name"
+                        onload="this.removeAttribute('required')"
+                        onfocus="this.removeAttribute('required')"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input 
+                        type="text" 
+                        id="register-email" 
+                        class="form-input" 
+                        placeholder="Enter your email"
+                        onload="this.removeAttribute('required')"
+                        onfocus="this.removeAttribute('required')"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input 
+                        type="password" 
+                        id="register-password" 
+                        class="form-input" 
+                        placeholder="Create a password"
+                        onload="this.removeAttribute('required')"
+                        onfocus="this.removeAttribute('required')"
+                    >
+                </div>
+                
+                <button type="submit" class="auth-button" onclick="console.log('Create Account button clicked!')">Create Account</button>
+            </form>
+            
+            <script>
+                // Immediate cleanup script - runs as soon as this part of the DOM is parsed
+                (function() {
+                    const inputs = ['login-email', 'login-password', 'register-email', 'register-password', 'register-firstname', 'register-lastname'];
+                    inputs.forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.removeAttribute('required');
+                        }
+                    });
+                })();
+            </script>
+            
+            <div class="auth-divider">or</div>
+            
+            <div class="auth-toggle">
+                <span id="auth-toggle-text">Don't have an account?</span>
+                <button type="button" id="auth-toggle-btn" onclick="toggleAuthMode()">Sign Up</button>
+            </div>
+            
+            <!-- Demo Credentials -->
+            <div class="demo-credentials">
+                <h4>Demo Account</h4>
+                <p>Email: <code>demo@learningplatform.com</code></p>
+                <p>Password: <code>demo123</code></p>
+            </div>
+        </div>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
@@ -371,6 +589,47 @@
             </div>
         </div>
     </section>
+
+    <!-- Personalized Dashboard (when authenticated) -->
+    <div id="personalized-dashboard" style="display: none;">
+        <!-- Welcome Banner -->
+        <section class="personalized-section">
+            <div class="container">
+                <div class="welcome-banner">
+                    <div class="welcome-content">
+                        <h2 id="welcome-message">Welcome back, Demo!</h2>
+                        <p id="welcome-subtitle">Ready to continue your learning journey? You're doing great!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Continue Learning Section -->
+        <section class="personalized-section">
+            <div class="container">
+                <div class="continue-learning">
+                    <h3>Continue Learning</h3>
+                    <div id="current-courses-list">
+                        <!-- Current courses will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section class="personalized-section">
+            <div class="container">
+                <div class="achievements-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Your Achievements</h3>
+                    </div>
+                    <div id="achievements-grid" class="achievements-grid">
+                        <!-- Achievements will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <!-- Main Content -->
     <main>
@@ -538,6 +797,7 @@
     </footer>
 
     <!-- Framework JavaScript -->
+    <script src="./assets/js/auth.js"></script>
     <script src="./assets/js/framework.js"></script>
     
     <!-- Dashboard JavaScript -->
@@ -793,8 +1053,415 @@
             }
         }
 
+        // Authentication Functions
+        let isLoginMode = true;
+
+        function showAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Ensure proper initial state
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            
+            if (isLoginMode) {
+                // Enable login form, disable register form
+                loginForm.querySelectorAll('input').forEach(input => {
+                    input.disabled = false;
+                    input.removeAttribute('required');
+                });
+                registerForm.querySelectorAll('input').forEach(input => {
+                    input.disabled = true;
+                    input.removeAttribute('required');
+                });
+            } else {
+                // Enable register form, disable login form
+                registerForm.querySelectorAll('input').forEach(input => {
+                    input.disabled = false;
+                    input.removeAttribute('required');
+                });
+                loginForm.querySelectorAll('input').forEach(input => {
+                    input.disabled = true;
+                    input.removeAttribute('required');
+                });
+            }
+        }
+
+        function hideAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            clearAuthError();
+        }
+
+        function toggleAuthMode() {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const authTitle = document.getElementById('auth-title');
+            const authSubtitle = document.getElementById('auth-subtitle');
+            const authToggleText = document.getElementById('auth-toggle-text');
+            const authToggleBtn = document.getElementById('auth-toggle-btn');
+
+            isLoginMode = !isLoginMode;
+
+            console.log('Toggling auth mode to:', isLoginMode ? 'login' : 'register');
+
+            if (isLoginMode) {
+                // Show login form, completely disable register form
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                
+                // Disable all inputs in register form to prevent validation
+                registerForm.querySelectorAll('input').forEach(input => {
+                    input.disabled = true;
+                    input.removeAttribute('required');
+                });
+                
+                // Enable all inputs in login form
+                loginForm.querySelectorAll('input').forEach(input => {
+                    input.disabled = false;
+                    input.removeAttribute('required');
+                });
+                
+                authTitle.textContent = 'Sign In';
+                authSubtitle.textContent = 'Welcome back! Please sign in to your account.';
+                authToggleText.textContent = "Don't have an account?";
+                authToggleBtn.textContent = 'Sign Up';
+            } else {
+                // Show register form, completely disable login form
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                
+                // Disable all inputs in login form to prevent validation
+                loginForm.querySelectorAll('input').forEach(input => {
+                    input.disabled = true;
+                    input.removeAttribute('required');
+                });
+                
+                // Enable all inputs in register form
+                registerForm.querySelectorAll('input').forEach(input => {
+                    input.disabled = false;
+                    input.removeAttribute('required');
+                });
+                
+                authTitle.textContent = 'Create Account';
+                authSubtitle.textContent = 'Join our learning community and start your journey!';
+                authToggleText.textContent = 'Already have an account?';
+                authToggleBtn.textContent = 'Sign In';
+            }
+
+            clearAuthError();
+        }
+
+
+
+        function showAuthError(message) {
+            const errorDiv = document.getElementById('auth-error');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+        }
+
+        function clearAuthError() {
+            const errorDiv = document.getElementById('auth-error');
+            errorDiv.classList.remove('show');
+        }
+
+        function handleLogout() {
+            if (window.authManager) {
+                window.authManager.logout();
+                hideUserDropdown();
+            }
+        }
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function hideUserDropdown() {
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.classList.remove('active');
+        }
+
+        // Debug function to test registration manually
+        function testRegistration() {
+            console.log('Testing registration manually...');
+            if (!window.authManager) {
+                console.error('Auth manager not available!');
+                return;
+            }
+            
+            const userData = {
+                firstName: 'Test',
+                lastName: 'User',
+                email: 'test@example.com',
+                password: 'password123'
+            };
+            
+            window.authManager.register(userData).then(result => {
+                console.log('Manual registration result:', result);
+            }).catch(error => {
+                console.error('Manual registration error:', error);
+            });
+        }
+
+        // Setup event listeners after DOM is ready
+        function setupAuthEventListeners() {
+            console.log('Setting up auth event listeners...');
+            
+            // Login form submission
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                console.log('Adding login form event listener...');
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    clearAuthError();
+                    
+                    // Re-enable inputs before processing
+                    loginForm.querySelectorAll('input').forEach(input => {
+                        input.disabled = false;
+                    });
+                    
+                    console.log('Login form submitted');
+                    console.log('AuthManager available:', !!window.authManager);
+                    
+                    if (!window.authManager) {
+                        showAuthError('Authentication system not available. Please refresh the page.');
+                        return;
+                    }
+
+                    const submitBtn = e.target.querySelector('.auth-button');
+                    if (!submitBtn) {
+                        console.error('Submit button not found');
+                        showAuthError('Form error. Please refresh the page.');
+                        return;
+                    }
+                    
+                    const originalText = submitBtn.textContent;
+                    
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Signing In...';
+                    
+                    try {
+                        const email = document.getElementById('login-email').value;
+                        const password = document.getElementById('login-password').value;
+                        
+                        console.log('Attempting login for:', email);
+                        const result = await window.authManager.login(email, password);
+                        
+                        console.log('Login result:', result);
+                        
+                        if (result && result.success) {
+                            hideAuthModal();
+                            e.target.reset();
+                        } else {
+                            showAuthError(result ? result.error : 'Login failed');
+                        }
+                    } catch (error) {
+                        console.error('Login error:', error);
+                        showAuthError('An unexpected error occurred. Please try again.');
+                    } finally {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                    }
+                });
+            } else {
+                console.error('Login form not found!');
+            }
+            
+            // Register form submission
+            const registerForm = document.getElementById('register-form');
+            if (registerForm) {
+                console.log('Adding register form event listener...');
+                registerForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    clearAuthError();
+                    
+                    // Re-enable inputs before processing
+                    registerForm.querySelectorAll('input').forEach(input => {
+                        input.disabled = false;
+                    });
+                    
+                    console.log('Register form submitted');
+                    console.log('AuthManager available:', !!window.authManager);
+                    
+                    if (!window.authManager) {
+                        showAuthError('Authentication system not available. Please refresh the page.');
+                        return;
+                    }
+
+                    const submitBtn = e.target.querySelector('.auth-button');
+                    if (!submitBtn) {
+                        console.error('Submit button not found');
+                        showAuthError('Form error. Please refresh the page.');
+                        return;
+                    }
+                    
+                    const originalText = submitBtn.textContent;
+                    
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Creating Account...';
+                    
+                    try {
+                        const userData = {
+                            firstName: document.getElementById('register-firstname').value,
+                            lastName: document.getElementById('register-lastname').value,
+                            email: document.getElementById('register-email').value,
+                            password: document.getElementById('register-password').value
+                        };
+                        
+                        console.log('Attempting registration for:', userData.email);
+                        const result = await window.authManager.register(userData);
+                        
+                        console.log('Registration result:', result);
+                        
+                        if (result && result.success) {
+                            hideAuthModal();
+                            e.target.reset();
+                            alert('Account created successfully! You are now logged in.');
+                        } else {
+                            showAuthError(result ? result.error : 'Registration failed');
+                        }
+                    } catch (error) {
+                        console.error('Registration error:', error);
+                        showAuthError('An unexpected error occurred. Please try again.');
+                    } finally {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                    }
+                });
+            } else {
+                console.error('Register form not found!');
+            }
+        }
+
+        // User avatar click handler
+        document.addEventListener('click', (e) => {
+            const userAvatar = document.getElementById('user-avatar');
+            const userDropdown = document.getElementById('user-dropdown');
+            
+            if (userAvatar && e.target === userAvatar) {
+                toggleUserDropdown();
+            } else if (userDropdown && !userDropdown.contains(e.target)) {
+                hideUserDropdown();
+            }
+            
+            // Close auth modal when clicking outside
+            const authModal = document.getElementById('auth-modal');
+            if (authModal && e.target === authModal) {
+                hideAuthModal();
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                hideAuthModal();
+                hideUserDropdown();
+            }
+        });
+
         // Initialize dashboard when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing...');
+            
+            // Force remove any required attributes to prevent validation conflicts
+            function removeRequiredAttributes() {
+                document.querySelectorAll('input[required]').forEach(input => {
+                    input.removeAttribute('required');
+                    console.log('Removed required attribute from:', input.id);
+                });
+                
+                // Also specifically target the problematic inputs
+                const loginEmail = document.getElementById('login-email');
+                const loginPassword = document.getElementById('login-password');
+                const registerEmail = document.getElementById('register-email');
+                const registerPassword = document.getElementById('register-password');
+                const registerFirstname = document.getElementById('register-firstname');
+                const registerLastname = document.getElementById('register-lastname');
+                
+                [loginEmail, loginPassword, registerEmail, registerPassword, registerFirstname, registerLastname].forEach(input => {
+                    if (input) {
+                        input.removeAttribute('required');
+                        console.log('Force removed required from:', input.id);
+                    }
+                });
+            }
+            
+            // Run immediately
+            removeRequiredAttributes();
+            
+            // Run again after a short delay in case something adds them back
+            setTimeout(removeRequiredAttributes, 100);
+            setTimeout(removeRequiredAttributes, 500);
+            
+            // Set up a MutationObserver to catch any dynamic addition of required attributes
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'required') {
+                        console.log('Detected required attribute being added to:', mutation.target.id);
+                        mutation.target.removeAttribute('required');
+                        console.log('Immediately removed required from:', mutation.target.id);
+                    }
+                });
+            });
+            
+            // Start observing
+            setTimeout(() => {
+                document.querySelectorAll('input').forEach(input => {
+                    observer.observe(input, { attributes: true, attributeFilter: ['required'] });
+                });
+                console.log('MutationObserver set up to monitor required attributes');
+            }, 10);
+            
+            // Ensure auth manager is initialized
+            if (window.authManager) {
+                console.log('Initializing auth manager...');
+                window.authManager.init();
+            } else {
+                console.error('Auth manager not available!');
+            }
+            
+            // Check if forms exist
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            console.log('Login form found:', !!loginForm);
+            console.log('Register form found:', !!registerForm);
+            
+            // Check form visibility
+            if (loginForm) {
+                console.log('Login form display:', getComputedStyle(loginForm).display);
+            }
+            if (registerForm) {
+                console.log('Register form display:', getComputedStyle(registerForm).display);
+                const createButton = registerForm.querySelector('.auth-button');
+                console.log('Create Account button found:', !!createButton);
+                if (createButton) {
+                    console.log('Create Account button text:', createButton.textContent);
+                    console.log('Create Account button disabled:', createButton.disabled);
+                }
+            }
+            
+            // Setup authentication event listeners
+            setupAuthEventListeners();
+            
+            // Add direct click handler test for debugging
+            setTimeout(() => {
+                const registerForm = document.getElementById('register-form');
+                if (registerForm) {
+                    const createButton = registerForm.querySelector('.auth-button');
+                    if (createButton) {
+                        createButton.addEventListener('click', (e) => {
+                            console.log('Direct click handler triggered!', e);
+                            console.log('Event target:', e.target);
+                            console.log('Button disabled:', e.target.disabled);
+                        });
+                        console.log('Added direct click handler to Create Account button');
+                    }
+                }
+            }, 100);
+            
             new Dashboard();
         });
     </script>

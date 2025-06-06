@@ -1,0 +1,59 @@
+# Version control
+.git
+.gitignore
+
+# Documentation
+README.md
+docs/
+
+# Docker files (except nginx.conf)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Development files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary folders
+tmp/
+temp/
+
+# Build artifacts (if any)
+dist/
+build/
+out/
+
+# Node modules (if any)
+node_modules/
+npm-debug.log 
