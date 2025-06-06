@@ -17,6 +17,11 @@ class AuthenticationManager {
         this.loadUsers();
         this.checkSession();
         this.setupEventListeners();
+        
+        // Always update UI after initialization to reflect current auth state
+        setTimeout(() => {
+            this.updateUI();
+        }, 100);
     }
 
     // Event System for Auth State Changes
@@ -523,20 +528,24 @@ class AuthenticationManager {
     updateUI() {
         console.log('Updating UI based on auth state');
         const loginBtn = document.getElementById('login-btn');
+        const homeBtn = document.getElementById('home-btn');
         const userProfile = document.getElementById('user-profile');
         const personalizedDashboard = document.getElementById('personalized-dashboard');
         const heroSection = document.querySelector('.hero-section');
+        const mainContent = document.querySelector('main');
         
         if (this.isAuthenticated()) {
             console.log('User is authenticated, updating UI');
             
-            // Hide login button, show user profile
+            // Hide login button, show home button and user profile
             if (loginBtn) loginBtn.style.display = 'none';
+            if (homeBtn) homeBtn.style.display = 'flex';
             if (userProfile) userProfile.style.display = 'flex';
             
-            // Show personalized dashboard, hide hero section
+            // Show personalized dashboard, hide hero section and main content
             if (personalizedDashboard) personalizedDashboard.style.display = 'block';
             if (heroSection) heroSection.style.display = 'none';
+            if (mainContent) mainContent.style.display = 'none';
             
             // Update user info
             const user = this.getCurrentUser();
@@ -549,21 +558,27 @@ class AuthenticationManager {
             if (welcomeMessage) welcomeMessage.textContent = `Welcome back, ${user.firstName}!`;
             
             // Trigger framework to update dashboard
-            if (window.learningFramework) {
-                window.learningFramework.renderPersonalizedDashboard();
+            if (window.framework) {
+                console.log('Calling framework.renderPersonalizedDashboard()');
+                window.framework.currentUser = user;
+                window.framework.renderPersonalizedDashboard();
+            } else {
+                console.warn('Framework not available to render dashboard');
             }
             
             console.log('UI updated for authenticated user:', user.email);
         } else {
             console.log('User is not authenticated, showing login UI');
             
-            // Show login button, hide user profile
+            // Show login button, hide home button and user profile
             if (loginBtn) loginBtn.style.display = 'block';
+            if (homeBtn) homeBtn.style.display = 'none';
             if (userProfile) userProfile.style.display = 'none';
             
-            // Hide personalized dashboard, show hero section
+            // Hide personalized dashboard, show hero section and main content
             if (personalizedDashboard) personalizedDashboard.style.display = 'none';
             if (heroSection) heroSection.style.display = 'block';
+            if (mainContent) mainContent.style.display = 'block';
             
             console.log('UI updated for unauthenticated state');
         }

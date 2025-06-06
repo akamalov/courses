@@ -350,9 +350,17 @@
                             placeholder="Search courses..."
                             aria-label="Search courses"
                         >
+                        <button id="nav-search-btn" class="search-button-nav" onclick="performNavSearch()" aria-label="Search">
+                            🔍
+                        </button>
                     </div>
                     
                     <div class="navbar-actions">
+                        <!-- Home Button (when authenticated) -->
+                        <button id="home-btn" class="home-button" onclick="goToHomeDashboard()" style="display: none;" title="Go to Dashboard">
+                            🏠 Home
+                        </button>
+                        
                         <!-- User Profile (when authenticated) -->
                         <div id="user-profile" class="user-profile" style="display: none;">
                             <div class="user-info">
@@ -391,8 +399,11 @@
                                 </div>
                                 
                                 <div class="dropdown-menu">
-                                    <button class="dropdown-item" onclick="window.location.href='#'">
+                                    <button class="dropdown-item" onclick="goToHomeDashboard()">
                                         📊 Dashboard
+                                    </button>
+                                    <button class="dropdown-item" onclick="goToBrowseCourses()">
+                                        📚 Browse Courses
                                     </button>
                                     <button class="dropdown-item" onclick="window.location.href='#'">
                                         👤 Profile
@@ -563,7 +574,9 @@
                             placeholder="Search for courses, skills, or topics..."
                             aria-label="Search courses"
                         >
-                        <div class="search-icon">🔍</div>
+                        <button id="hero-search-btn" class="search-button" onclick="performHeroSearch()" aria-label="Search">
+                            🔍
+                        </button>
                     </div>
                 </div>
                 
@@ -611,6 +624,21 @@
                     <h3>Continue Learning</h3>
                     <div id="current-courses-list">
                         <!-- Current courses will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommended Courses Section -->
+        <section class="personalized-section">
+            <div class="container">
+                <div class="recommendations-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Recommended for You</h3>
+                        <p class="section-subtitle">Courses tailored to your interests and learning goals</p>
+                    </div>
+                    <div id="dashboard-recommended-courses" class="course-grid">
+                        <!-- Recommended courses will be loaded here -->
                     </div>
                 </div>
             </div>
@@ -804,24 +832,25 @@
     <script>
         class Dashboard {
             constructor() {
-                this.framework = window.learningFramework;
+                this.framework = null;
                 this.currentFilters = {};
                 this.init();
             }
 
             init() {
                 // Wait for framework to be ready
-                if (!this.framework) {
+                if (!window.learningFramework) {
                     setTimeout(() => this.init(), 100);
                     return;
                 }
-
+                
+                this.framework = window.learningFramework;
                 this.setupEventListeners();
                 this.loadContent();
             }
 
             setupEventListeners() {
-                // Search functionality
+                // Search functionality for main search
                 const searchInput = document.getElementById('search-input');
                 if (searchInput) {
                     let searchTimeout;
@@ -830,6 +859,41 @@
                         searchTimeout = setTimeout(() => {
                             this.handleSearch(e.target.value);
                         }, 300);
+                    });
+                    
+                    // Handle Enter key press
+                    searchInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            performHeroSearch();
+                        }
+                    });
+                }
+
+                // Search functionality for nav search
+                const navSearch = document.getElementById('nav-search');
+                if (navSearch) {
+                    let navSearchTimeout;
+                    navSearch.addEventListener('input', (e) => {
+                        clearTimeout(navSearchTimeout);
+                        navSearchTimeout = setTimeout(() => {
+                            // Sync search inputs
+                            if (searchInput) searchInput.value = e.target.value;
+                            this.handleSearch(e.target.value);
+                            
+                            // If there's a search query, go to browse courses view
+                            if (e.target.value.trim()) {
+                                goToBrowseCourses();
+                            }
+                        }, 300);
+                    });
+                    
+                    // Handle Enter key press
+                    navSearch.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            performNavSearch();
+                        }
                     });
                 }
 
@@ -854,6 +918,8 @@
             }
 
             loadContent() {
+                if (!this.framework) return;
+                
                 this.updateStats();
                 this.loadFeaturedCourses();
                 this.loadRecommendedCourses();
@@ -862,25 +928,33 @@
             }
 
             updateStats() {
+                if (!this.framework) return;
+                
                 const totalCourses = this.framework.getAllCourses().length;
                 const totalStudents = this.framework.getAllCourses()
                     .reduce((sum, course) => sum + course.enrollments, 0);
 
-                document.getElementById('total-courses').textContent = totalCourses;
-                document.getElementById('total-students').textContent = totalStudents.toLocaleString();
+                const totalCoursesEl = document.getElementById('total-courses');
+                const totalStudentsEl = document.getElementById('total-students');
+                
+                if (totalCoursesEl) totalCoursesEl.textContent = totalCourses;
+                if (totalStudentsEl) totalStudentsEl.textContent = totalStudents.toLocaleString();
             }
 
             loadFeaturedCourses() {
+                if (!this.framework) return;
                 const featuredCourses = this.framework.getFeaturedCourses();
                 this.renderCourses(featuredCourses, 'featured-courses');
             }
 
             loadRecommendedCourses() {
+                if (!this.framework) return;
                 const recommendations = this.framework.getRecommendations(6);
                 this.renderCourses(recommendations, 'recommended-courses');
             }
 
             loadAllCourses() {
+                if (!this.framework) return;
                 const allCourses = this.framework.getAllCourses();
                 this.renderCourses(allCourses, 'all-courses');
             }
@@ -918,8 +992,9 @@
             renderCourseCard(course) {
                 const progress = this.framework.getCourseProgress(course.id);
                 const progressPercent = Math.round((progress.completed / progress.total) * 100);
-                const isCompleted = this.framework.currentUser.completedCourses.includes(course.id);
-                const isInProgress = this.framework.currentUser.inProgressCourses.includes(course.id);
+                const user = this.framework.currentUser || { completedCourses: [], inProgressCourses: [] };
+                const isCompleted = user.completedCourses && user.completedCourses.includes(course.id);
+                const isInProgress = user.inProgressCourses && user.inProgressCourses.includes(course.id);
 
                 return `
                     <div class="card course-card" data-course-id="${course.id}">
@@ -989,19 +1064,25 @@
                 const searchResultsCount = document.getElementById('search-results-count');
                 
                 if (!query || query.trim().length === 0) {
-                    searchResultsSection.style.display = 'none';
+                    if (searchResultsSection) searchResultsSection.style.display = 'none';
+                    return;
+                }
+
+                // Check if framework is available
+                if (!this.framework) {
+                    console.error('Framework not available for search');
                     return;
                 }
 
                 const results = this.framework.search(query);
                 
-                searchResultsSection.style.display = 'block';
-                searchResultsCount.textContent = `Found ${results.length} course${results.length !== 1 ? 's' : ''} for "${query}"`;
+                if (searchResultsSection) searchResultsSection.style.display = 'block';
+                if (searchResultsCount) searchResultsCount.textContent = `Found ${results.length} course${results.length !== 1 ? 's' : ''} for "${query}"`;
                 
                 this.renderCourses(results, 'search-results');
                 
                 // Scroll to results
-                searchResultsSection.scrollIntoView({ behavior: 'smooth' });
+                if (searchResultsSection) searchResultsSection.scrollIntoView({ behavior: 'smooth' });
             }
 
             handleFiltersChange() {
@@ -1419,6 +1500,12 @@
             if (window.authManager) {
                 console.log('Initializing auth manager...');
                 window.authManager.init();
+                
+                // Force UI update after initialization
+                setTimeout(() => {
+                    console.log('Force updating UI after auth manager init');
+                    window.authManager.updateUI();
+                }, 200);
             } else {
                 console.error('Auth manager not available!');
             }
@@ -1462,8 +1549,140 @@
                 }
             }, 100);
             
-            new Dashboard();
+            // Initialize Dashboard and store globally
+            window.dashboard = new Dashboard();
         });
+
+        // Home button functionality
+        function goToHomeDashboard() {
+            console.log('Home button clicked - navigating to dashboard');
+            
+            // Hide main content and show personalized dashboard
+            const mainContent = document.querySelector('main');
+            const heroSection = document.querySelector('.hero-section');
+            const personalizedDashboard = document.getElementById('personalized-dashboard');
+            const searchResultsSection = document.getElementById('search-results-section');
+            
+            if (mainContent) mainContent.style.display = 'none';
+            if (heroSection) heroSection.style.display = 'none';
+            if (searchResultsSection) searchResultsSection.style.display = 'none';
+            if (personalizedDashboard) personalizedDashboard.style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Update dashboard content if needed
+            if (window.learningFramework) {
+                window.learningFramework.renderPersonalizedDashboard();
+            }
+        }
+
+        // Browse Courses functionality
+        function goToBrowseCourses(keepSearchResults = false) {
+            console.log('Browse Courses clicked - navigating to main content');
+            
+            // Show main content and hide personalized dashboard
+            const mainContent = document.querySelector('main');
+            const heroSection = document.querySelector('.hero-section');
+            const personalizedDashboard = document.getElementById('personalized-dashboard');
+            const searchResultsSection = document.getElementById('search-results-section');
+            
+            if (personalizedDashboard) personalizedDashboard.style.display = 'none';
+            if (!keepSearchResults && searchResultsSection) searchResultsSection.style.display = 'none';
+            if (heroSection) heroSection.style.display = 'none'; // Keep hero hidden for logged in users
+            if (mainContent) mainContent.style.display = 'block';
+            
+            // Hide any open dropdowns
+            const userDropdown = document.getElementById('user-dropdown');
+            if (userDropdown) {
+                userDropdown.classList.remove('active');
+            }
+            
+            // Scroll to top only if not preserving search results
+            if (!keepSearchResults) {
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Search button functionality
+        function performNavSearch() {
+            const navSearch = document.getElementById('nav-search');
+            const searchInput = document.getElementById('search-input');
+            
+            if (navSearch) {
+                const query = navSearch.value.trim();
+                console.log('Nav search triggered:', query);
+                
+                // Sync search inputs
+                if (searchInput) searchInput.value = query;
+                
+                if (query) {
+                    // Navigate to browse courses view but keep search results visible
+                    goToBrowseCourses(true);
+                    
+                    // Then trigger search to show results
+                    setTimeout(() => {
+                        if (window.dashboard) {
+                            window.dashboard.handleSearch(query);
+                        }
+                    }, 100);
+                } else {
+                    // No query, just navigate to browse courses
+                    goToBrowseCourses();
+                }
+            }
+        }
+
+        function performHeroSearch() {
+            const searchInput = document.getElementById('search-input');
+            const navSearch = document.getElementById('nav-search');
+            
+            if (searchInput) {
+                const query = searchInput.value.trim();
+                console.log('Hero search triggered:', query);
+                
+                // Sync search inputs
+                if (navSearch) navSearch.value = query;
+                
+                if (query) {
+                    // Navigate to browse courses view but keep search results visible
+                    goToBrowseCourses(true);
+                    
+                    // Then trigger search to show results
+                    setTimeout(() => {
+                        if (window.dashboard) {
+                            window.dashboard.handleSearch(query);
+                        }
+                    }, 100);
+                } else {
+                    // No query, just navigate to browse courses
+                    goToBrowseCourses();
+                }
+            }
+        }
+
+        // Logout functionality
+        function handleLogout() {
+            console.log('Logout initiated');
+            
+            if (window.authManager) {
+                // Call the logout method from AuthenticationManager
+                window.authManager.logout();
+                
+                // Hide any open dropdowns
+                const userDropdown = document.getElementById('user-dropdown');
+                if (userDropdown) {
+                    userDropdown.classList.remove('active');
+                }
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+                
+                console.log('Logout completed');
+            } else {
+                console.error('Auth manager not available');
+            }
+        }
     </script>
 </body>
 </html>

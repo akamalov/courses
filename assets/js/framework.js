@@ -110,8 +110,11 @@ class LearningFramework {
     renderPersonalizedDashboard() {
         if (!this.currentUser) return;
         
+        console.log('Rendering personalized dashboard for user:', this.currentUser.firstName);
+        
         this.renderWelcomeBanner();
         this.renderCurrentCourses();
+        this.renderDashboardRecommendations();
         this.renderAchievements();
     }
 
@@ -146,7 +149,7 @@ class LearningFramework {
                     <div class="empty-state-icon">📚</div>
                     <h4 class="empty-state-title">No courses in progress</h4>
                     <p class="empty-state-text">Browse our catalog and start learning something new!</p>
-                    <button class="btn btn-primary" onclick="document.getElementById('featured-courses').scrollIntoView()">
+                    <button class="btn btn-primary" onclick="goToBrowseCourses()">
                         Explore Courses
                     </button>
                 </div>
@@ -177,6 +180,45 @@ class LearningFramework {
                 </a>
             `;
         }).join('');
+    }
+
+    renderDashboardRecommendations() {
+        const container = document.getElementById('dashboard-recommended-courses');
+        if (!container) return;
+        
+        console.log('Rendering dashboard recommendations...');
+        
+        // Get personalized recommendations if auth manager is available
+        let recommendedCourses = [];
+        if (window.authManager && this.currentUser) {
+            recommendedCourses = window.authManager.getPersonalizedRecommendations(
+                this.getAllCourses(), 
+                4
+            );
+        }
+        
+        // Fallback to featured courses if no personalized recommendations
+        if (recommendedCourses.length === 0) {
+            recommendedCourses = this.getFeaturedCourses().slice(0, 4);
+        }
+        
+        console.log('Found recommendations:', recommendedCourses.length);
+        
+        if (recommendedCourses.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">🔍</div>
+                    <h4 class="empty-state-title">No recommendations yet</h4>
+                    <p class="empty-state-text">Start taking courses to get personalized recommendations!</p>
+                    <button class="btn btn-primary" onclick="goToBrowseCourses()">
+                        Browse All Courses
+                    </button>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = recommendedCourses.map(course => this.renderCourseCard(course)).join('');
     }
 
     renderAchievements() {
@@ -321,6 +363,10 @@ class LearningFramework {
     }
 
     search(query, options = {}) {
+        console.log('Search called with query:', query);
+        console.log('Total courses available:', this.getAllCourses().length);
+        console.log('Search index size:', this.searchIndex.size);
+        
         if (!query || query.trim().length === 0) {
             return this.getAllCourses();
         }
@@ -335,12 +381,19 @@ class LearningFramework {
         // Normalize query
         const normalizedQuery = query.toLowerCase().trim();
         const queryWords = normalizedQuery.split(/\s+/);
+        
+        console.log('Normalized query:', normalizedQuery);
+        console.log('Query words:', queryWords);
 
         // Find matching courses
         const courseScores = new Map();
         
         queryWords.forEach(word => {
+            console.log('Looking for word:', word);
+            console.log('Search index has word:', this.searchIndex.has(word));
+            
             if (this.searchIndex.has(word)) {
+                console.log('Found course IDs for word "' + word + '":', Array.from(this.searchIndex.get(word)));
                 this.searchIndex.get(word).forEach(courseId => {
                     const course = this.getCourse(courseId);
                     if (!course) return;
@@ -354,7 +407,11 @@ class LearningFramework {
                     if (course.category.toLowerCase().includes(word)) score += 2;
                     
                     courseScores.set(courseId, score);
+                    console.log('Course "' + course.title + '" got score:', score);
                 });
+            } else {
+                console.log('Word "' + word + '" not found in search index');
+                console.log('Available words in index:', Array.from(this.searchIndex.keys()).slice(0, 20));
             }
         });
 
@@ -381,6 +438,9 @@ class LearningFramework {
             resultsCount: results.length
         });
 
+        console.log('Search results:', results.length, 'courses found');
+        console.log('Result titles:', results.map(course => course.title));
+        
         return results;
     }
 
@@ -463,7 +523,16 @@ class LearningFramework {
         const tags = new Set();
         let difficulty = null;
         
-        [...this.currentUser.completedCourses, ...this.currentUser.inProgressCourses]
+        // Check if user exists first
+        if (!this.currentUser) {
+            return { categories, tags, difficulty };
+        }
+        
+        // Ensure arrays exist and normalize property names
+        const completedCourses = this.currentUser.completedCourses || this.currentUser.coursesCompleted || [];
+        const inProgressCourses = this.currentUser.inProgressCourses || this.currentUser.coursesInProgress || [];
+        
+        [...completedCourses, ...inProgressCourses]
             .forEach(courseId => {
                 const course = this.getCourse(courseId);
                 if (course) {
@@ -478,24 +547,49 @@ class LearningFramework {
 
     // Course Interaction
     startCourse(courseId) {
-        if (!this.currentUser.inProgressCourses.includes(courseId)) {
-            this.currentUser.inProgressCourses.push(courseId);
-            this.analytics.courseStarted.set(courseId, new Date());
-            this.saveUserData();
+        const course = this.getCourse(courseId);
+        if (!course) {
+            console.error('Course not found:', courseId);
+            return;
+        }
+
+        // Handle coming soon courses
+        if (course.path === '#coming-soon') {
+            alert('This course is coming soon! Stay tuned for updates.');
+            return;
+        }
+
+        // Update user progress if authenticated
+        if (this.currentUser) {
+            if (!this.currentUser.coursesInProgress) {
+                this.currentUser.coursesInProgress = [];
+            }
+            if (!this.currentUser.coursesInProgress.includes(courseId)) {
+                this.currentUser.coursesInProgress.push(courseId);
+                this.analytics.courseStarted.set(courseId, new Date());
+                this.saveUserData();
+            }
         }
         
         // Navigate to course
-        window.location.href = this.getCourse(courseId).path;
+        console.log('Navigating to course:', course.title, 'at', course.path);
+        window.location.href = course.path;
     }
 
     completeCourse(courseId) {
+        if (!this.currentUser) return;
+
+        // Initialize arrays if they don't exist
+        if (!this.currentUser.coursesInProgress) this.currentUser.coursesInProgress = [];
+        if (!this.currentUser.coursesCompleted) this.currentUser.coursesCompleted = [];
+
         // Remove from in-progress
-        this.currentUser.inProgressCourses = this.currentUser.inProgressCourses
+        this.currentUser.coursesInProgress = this.currentUser.coursesInProgress
             .filter(id => id !== courseId);
         
         // Add to completed
-        if (!this.currentUser.completedCourses.includes(courseId)) {
-            this.currentUser.completedCourses.push(courseId);
+        if (!this.currentUser.coursesCompleted.includes(courseId)) {
+            this.currentUser.coursesCompleted.push(courseId);
             this.analytics.courseCompleted.set(courseId, new Date());
         }
         
@@ -607,8 +701,9 @@ class LearningFramework {
     renderCourseCard(course) {
         const progress = this.getCourseProgress(course.id);
         const progressPercent = Math.round((progress.completed / progress.total) * 100);
-        const isCompleted = this.currentUser.completedCourses.includes(course.id);
-        const isInProgress = this.currentUser.inProgressCourses.includes(course.id);
+        const user = this.currentUser || { coursesCompleted: [], coursesInProgress: [] };
+        const isCompleted = user.coursesCompleted && user.coursesCompleted.includes(course.id);
+        const isInProgress = user.coursesInProgress && user.coursesInProgress.includes(course.id);
 
         return `
             <div class="card course-card" data-course-id="${course.id}">
@@ -652,8 +747,8 @@ class LearningFramework {
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary">
-                        ${isCompleted ? 'Review' : isInProgress ? 'Continue' : 'Start Course'}
+                    <button class="btn btn-primary" onclick="window.learningFramework.startCourse('${course.id}')">
+                        ${isCompleted ? 'Review' : isInProgress ? 'Continue Learning' : 'Start Course'}
                     </button>
                 </div>
             </div>
@@ -674,6 +769,7 @@ class LearningFramework {
 
     // Default Course Data
     loadCourses() {
+        console.log('Loading courses...');
         // Register the n8n course
         this.registerCourse({
             id: 'n8n-crash-course',
@@ -775,6 +871,14 @@ class LearningFramework {
             path: '#coming-soon',
             isFeatured: true
         });
+        
+        console.log('Courses loaded. Total:', this.getAllCourses().length);
+        console.log('Search index built. Index size:', this.searchIndex.size);
+        console.log('Course titles:', this.getAllCourses().map(c => c.title));
+        
+        // Rebuild search index to make sure it's current
+        this.buildSearchIndex();
+        console.log('Search index rebuilt. New size:', this.searchIndex.size);
     }
 }
 

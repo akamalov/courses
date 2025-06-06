@@ -416,6 +416,29 @@
     box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
 }
 
+/* Home Button (when authenticated) */
+.home-button {
+    background: var(--surface-color);
+    color: var(--primary-color);
+    padding: 0.625rem 1rem;
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.home-button:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+}
+
 /* Dashboard Personalization */
 .personalized-section {
     margin-bottom: 3rem;

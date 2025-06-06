@@ -57,17 +57,20 @@
 .navbar-search {
     flex: 1;
     max-width: 400px;
+    display: flex;
+    align-items: center;
 }
 
 .search-input-nav {
-    width: 100%;
+    flex: 1;
     padding: var(--space-sm) var(--space-md);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
     background: var(--background-color);
     color: var(--text-primary);
     font-size: 0.9rem;
     transition: all var(--transition-normal);
+    border-right: none;
 }
 
 .search-input-nav:focus {
@@ -376,16 +379,53 @@ a:hover {
 }
 
 .search-input {
-    padding-left: 3rem;
+    padding-right: 3rem;
 }
 
-.search-icon {
+.search-button {
     position: absolute;
-    left: var(--space-md);
+    right: 0.5rem;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-muted);
-    pointer-events: none;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.search-button:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.search-button-nav {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5rem;
+}
+
+.search-button-nav:hover {
+    background: var(--primary-hover);
 }
 
 /* Badges */

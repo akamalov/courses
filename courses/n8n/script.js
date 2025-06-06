@@ -893,6 +893,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Home navigation function
+function goHome() {
+    console.log('Navigating back to main dashboard');
+    
+    // Check if we're in an iframe (if this course is embedded)
+    if (window.parent !== window) {
+        // Send message to parent window to navigate home
+        window.parent.postMessage({ action: 'navigateHome' }, '*');
+    } else {
+        // Direct navigation to home page
+        window.location.href = '../../index.html';
+    }
+}
+
 // Export functions for global access
 window.courseState = courseState;
 window.startCourse = startCourse;
@@ -903,3 +917,4 @@ window.prevExample = prevExample;
 window.showExample = showExample;
 window.nextQuestion = nextQuestion;
 window.prevQuestion = prevQuestion;
+window.goHome = goHome;
