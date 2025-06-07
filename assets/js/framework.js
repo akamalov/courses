@@ -770,7 +770,7 @@ class LearningFramework {
     // Default Course Data
     loadCourses() {
         console.log('Loading courses...');
-        // Register the n8n course
+        // Register the n8n courses
         this.registerCourse({
             id: 'n8n-crash-course',
             title: 'n8n Crash Course',
@@ -790,6 +790,55 @@ class LearningFramework {
             enrollments: 1247,
             thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNjY3ZWVhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5uOG48L3RleHQ+PC9zdmc+',
             path: './courses/n8n/index.html',
+            isFeatured: true,
+            isNew: true
+        });
+
+        this.registerCourse({
+            id: 'n8n-intermediate',
+            title: 'Intermediate n8n Course',
+            description: 'Take your n8n skills to the next level. Learn advanced automation patterns, error handling, and complex integrations.',
+            category: 'Automation',
+            difficulty: 'intermediate',
+            duration: 90,
+            tags: ['automation', 'no-code', 'advanced-workflows', 'error-handling', 'complex-integrations', 'n8n'],
+            learningObjectives: [
+                'Master advanced n8n nodes and expressions',
+                'Implement robust error handling and monitoring',
+                'Build complex multi-step automation workflows',
+                'Optimize workflow performance and reliability',
+                'Create reusable workflow templates and sub-workflows'
+            ],
+            instructor: 'AI Learning Assistant',
+            rating: 4.9,
+            enrollments: 743,
+            thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM2NjdlZWE7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojOWM0MWZmO3N0b3Atb3BhY2l0eToxIiAvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiLz48dGV4dCB4PSI1MCUiIHk9IjQwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPm44bjwvdGV4dD48dGV4dCB4PSI1MCUiIHk9IjYwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkludGVybWVkaWF0ZTwvdGV4dD48L3N2Zz4=',
+            path: './courses/n8n-intermediate/index.html',
+            isFeatured: true,
+            isNew: true
+        });
+
+        this.registerCourse({
+            id: 'n8n-advanced',
+            title: 'Advanced n8n Course',
+            description: 'Master enterprise-level n8n automation. Learn microservices integration, advanced security, custom nodes, and large-scale deployment strategies.',
+            category: 'Automation',
+            difficulty: 'advanced',
+            duration: 150,
+            tags: ['automation', 'enterprise', 'microservices', 'security', 'custom-nodes', 'deployment', 'n8n-expert'],
+            learningObjectives: [
+                'Build enterprise-grade automation architectures',
+                'Create custom nodes and advanced integrations',
+                'Implement security best practices and compliance',
+                'Design scalable microservices automation patterns',
+                'Master advanced deployment and DevOps strategies',
+                'Optimize for high-availability and disaster recovery'
+            ],
+            instructor: 'AI Learning Assistant',
+            rating: 4.95,
+            enrollments: 389,
+            thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImFkdmFuY2VkIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI1MCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZjZiNmI7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIzMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM2NjdlZWE7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMWExYTJlO3N0b3Atb3BhY2l0eToxIiAvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjYWR2YW5jZWQpIi8+PHRleHQgeD0iNTAlIiB5PSIzNSUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMiIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iIGZvbnQtd2VpZ2h0PSJib2xkIj5uOG48L3RleHQ+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkFEVkFOQ0VEPC90ZXh0Pjx0ZXh0IHg9IjUwJSIgeT0iNzAlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5FbnRlcnByaXNlPC90ZXh0Pjwvc3ZnPg==',
+            path: './courses/n8n-advanced/index.html',
             isFeatured: true,
             isNew: true
         });

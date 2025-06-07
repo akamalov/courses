@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced n8n Course - Enterprise Automation Mastery</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="course-header">
+        <div class="header-content">
+            <button class="home-btn" onclick="goHome()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Home
+            </button>
+            <h1 class="course-title">Advanced n8n Course</h1>
+            <div class="course-meta">
+                <span class="difficulty">Advanced</span>
+                <span class="duration">150 minutes</span>
+                <span class="enterprise">Enterprise</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Course Content -->
+    <main class="course-content">
+        <!-- Course Overview -->
+        <section class="course-overview">
+            <div class="overview-card">
+                <div class="course-badge">🏢 Enterprise Level</div>
+                <h2>Course Overview</h2>
+                <p>Master enterprise-level n8n automation in this comprehensive advanced course. Learn to build scalable, secure, and maintainable automation architectures that can handle enterprise workloads and compliance requirements.</p>
+                
+                <div class="learning-objectives">
+                    <h3>What You'll Master</h3>
+                    <ul>
+                        <li>Build enterprise-grade automation architectures</li>
+                        <li>Create custom nodes and advanced integrations</li>
+                        <li>Implement security best practices and compliance</li>
+                        <li>Design scalable microservices automation patterns</li>
+                        <li>Master advanced deployment and DevOps strategies</li>
+                        <li>Optimize for high-availability and disaster recovery</li>
+                    </ul>
+                </div>
+
+                <div class="prerequisites">
+                    <h3>Prerequisites</h3>
+                    <div class="prereq-items">
+                        <div class="prereq-item">
+                            <span class="prereq-icon">✅</span>
+                            <div>
+                                <strong>Completed Intermediate n8n Course</strong>
+                                <p>Strong foundation in advanced workflows and error handling</p>
+                            </div>
+                        </div>
+                        <div class="prereq-item">
+                            <span class="prereq-icon">🔧</span>
+                            <div>
+                                <strong>Development Experience</strong>
+                                <p>JavaScript/TypeScript and API development knowledge</p>
+                            </div>
+                        </div>
+                        <div class="prereq-item">
+                            <span class="prereq-icon">☁️</span>
+                            <div>
+                                <strong>Cloud & DevOps Familiarity</strong>
+                                <p>Understanding of containerization, CI/CD, and cloud platforms</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Course Modules -->
+        <section class="course-modules">
+            <h2>Advanced Modules</h2>
+            
+            <div class="module-grid">
+                <div class="module-card enterprise">
+                    <div class="module-header">
+                        <div class="module-info">
+                            <h3>Module 1: Enterprise Architecture</h3>
+                            <span class="module-level">🏢 Enterprise</span>
+                        </div>
+                        <span class="module-duration">35 min</span>
+                    </div>
+                    <div class="module-content">
+                        <p>Design and implement enterprise-grade automation architectures that scale to thousands of workflows while maintaining performance and reliability.</p>
+                        <ul class="module-topics">
+                            <li>Microservices automation patterns</li>
+                            <li>Event-driven architecture design</li>
+                            <li>Load balancing and auto-scaling</li>
+                            <li>Multi-tenant workflow isolation</li>
+                            <li>Enterprise integration patterns</li>
+                        </ul>
+                        <div class="module-tools">
+                            <span class="tool-tag">Kubernetes</span>
+                            <span class="tool-tag">Docker</span>
+                            <span class="tool-tag">Redis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card security">
+                    <div class="module-header">
+                        <div class="module-info">
+                            <h3>Module 2: Security & Compliance</h3>
+                            <span class="module-level">🔒 Security</span>
+                        </div>
+                        <span class="module-duration">40 min</span>
+                    </div>
+                    <div class="module-content">
+                        <p>Implement comprehensive security frameworks and ensure compliance with enterprise standards including GDPR, HIPAA, and SOC 2.</p>
+                        <ul class="module-topics">
+                            <li>OAuth 2.0 and JWT implementation</li>
+                            <li>Data encryption and key management</li>
+                            <li>Audit logging and compliance monitoring</li>
+                            <li>Role-based access control (RBAC)</li>
+                            <li>Security scanning and vulnerability assessment</li>
+                        </ul>
+                        <div class="module-tools">
+                            <span class="tool-tag">OAuth</span>
+                            <span class="tool-tag">Vault</span>
+                            <span class="tool-tag">TLS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card development">
+                    <div class="module-header">
+                        <div class="module-info">
+                            <h3>Module 3: Custom Node Development</h3>
+                            <span class="module-level">⚡ Development</span>
+                        </div>
+                        <span class="module-duration">45 min</span>
+                    </div>
+                    <div class="module-content">
+                        <p>Create custom nodes, advanced integrations, and extend n8n's capabilities to meet specific enterprise requirements.</p>
+                        <ul class="module-topics">
+                            <li>TypeScript node development</li>
+                            <li>Advanced credential management</li>
+                            <li>Custom UI components</li>
+                            <li>Testing and debugging strategies</li>
+                            <li>Publishing and distribution</li>
+                        </ul>
+                        <div class="module-tools">
+                            <span class="tool-tag">TypeScript</span>
+                            <span class="tool-tag">Node.js</span>
+                            <span class="tool-tag">Jest</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card devops">
+                    <div class="module-header">
+                        <div class="module-info">
+                            <h3>Module 4: Advanced Deployment</h3>
+                            <span class="module-level">🚀 DevOps</span>
+                        </div>
+                        <span class="module-duration">30 min</span>
+                    </div>
+                    <div class="module-content">
+                        <p>Master advanced deployment strategies including blue-green deployments, canary releases, and disaster recovery planning.</p>
+                        <ul class="module-topics">
+                            <li>CI/CD pipeline automation</li>
+                            <li>Infrastructure as Code (IaC)</li>
+                            <li>High-availability deployment patterns</li>
+                            <li>Monitoring and observability</li>
+                            <li>Disaster recovery and backup strategies</li>
+                        </ul>
+                        <div class="module-tools">
+                            <span class="tool-tag">Terraform</span>
+                            <span class="tool-tag">GitHub Actions</span>
+                            <span class="tool-tag">Prometheus</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Capstone Projects -->
+        <section class="projects-section">
+            <h2>Capstone Projects</h2>
+            
+            <div class="project-grid">
+                <div class="project-card enterprise-project">
+                    <div class="project-header">
+                        <h3>🏢 Enterprise Integration Platform</h3>
+                        <span class="project-complexity">High Complexity</span>
+                    </div>
+                    <p>Build a complete enterprise integration platform that handles real-time data synchronization across multiple business systems with full audit trails and compliance reporting.</p>
+                    <div class="project-features">
+                        <div class="feature-item">✓ Multi-system integration</div>
+                        <div class="feature-item">✓ Real-time event processing</div>
+                        <div class="feature-item">✓ Compliance reporting</div>
+                        <div class="feature-item">✓ Advanced monitoring</div>
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag advanced">Microservices</span>
+                        <span class="tech-tag advanced">Event Sourcing</span>
+                        <span class="tech-tag advanced">CQRS</span>
+                    </div>
+                </div>
+
+                <div class="project-card security-project">
+                    <div class="project-header">
+                        <h3>🔐 Zero-Trust Automation Hub</h3>
+                        <span class="project-complexity">High Complexity</span>
+                    </div>
+                    <p>Implement a zero-trust security model for automation workflows with end-to-end encryption, dynamic access controls, and comprehensive threat detection.</p>
+                    <div class="project-features">
+                        <div class="feature-item">✓ Zero-trust architecture</div>
+                        <div class="feature-item">✓ Dynamic access control</div>
+                        <div class="feature-item">✓ Threat detection</div>
+                        <div class="feature-item">✓ Encryption at rest & transit</div>
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag advanced">mTLS</span>
+                        <span class="tech-tag advanced">RBAC</span>
+                        <span class="tech-tag advanced">PKI</span>
+                    </div>
+                </div>
+
+                <div class="project-card devops-project">
+                    <div class="project-header">
+                        <h3>🚀 Multi-Cloud Deployment System</h3>
+                        <span class="project-complexity">Expert Level</span>
+                    </div>
+                    <p>Create a sophisticated multi-cloud deployment system with automatic failover, geographic distribution, and intelligent load balancing across cloud providers.</p>
+                    <div class="project-features">
+                        <div class="feature-item">✓ Multi-cloud orchestration</div>
+                        <div class="feature-item">✓ Automatic failover</div>
+                        <div class="feature-item">✓ Geographic distribution</div>
+                        <div class="feature-item">✓ Cost optimization</div>
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag advanced">Terraform</span>
+                        <span class="tech-tag advanced">Kubernetes</span>
+                        <span class="tech-tag advanced">Service Mesh</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Enterprise Tools & Resources -->
+        <section class="tools-section">
+            <h2>Enterprise Tools & Resources</h2>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">🏗️</div>
+                    <h3>Development Environment</h3>
+                    <p>Complete enterprise development setup with containerized environments and testing frameworks</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">📊</div>
+                    <h3>Monitoring & Analytics</h3>
+                    <p>Advanced monitoring dashboards, performance analytics, and business intelligence tools</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">🔐</div>
+                    <h3>Security Testing Suite</h3>
+                    <p>Comprehensive security testing tools including vulnerability scanners and penetration testing</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">📚</div>
+                    <h3>Enterprise Documentation</h3>
+                    <p>Complete architectural blueprints, compliance checklists, and best practices guides</p>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-icon">🎯</div>
+                    <h3>Expert Mentorship</h3>
+                    <p>Direct access to enterprise automation experts and solution architects</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">🏆</div>
+                    <h3>Certification Path</h3>
+                    <p>Industry-recognized certification program for n8n Enterprise Architects</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Course Progress -->
+        <section class="progress-section">
+            <h2>Your Progress</h2>
+            <div class="progress-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="modules-completed">0</div>
+                    <div class="stat-label">Modules Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="projects-completed">0</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="completion-percentage">0%</div>
+                    <div class="stat-label">Course Progress</div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">Ready to begin your enterprise journey</span>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="startModule(1)">Start Enterprise Module 1</button>
+                <button class="btn btn-secondary" onclick="downloadResources()">Download Enterprise Kit</button>
+                <button class="btn btn-expert" onclick="accessMentorship()">Expert Mentorship</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="course-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Learning Platform - Advanced n8n Course</p>
+            <p class="footer-subtitle">Enterprise Automation Mastery Program</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

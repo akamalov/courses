@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermediate n8n Course - Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="course-header">
+        <div class="header-content">
+            <button class="home-btn" onclick="goHome()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Home
+            </button>
+            <h1 class="course-title">Intermediate n8n Course</h1>
+            <div class="course-meta">
+                <span class="difficulty">Intermediate</span>
+                <span class="duration">90 minutes</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Course Content -->
+    <main class="course-content">
+        <!-- Course Overview -->
+        <section class="course-overview">
+            <div class="overview-card">
+                <h2>Course Overview</h2>
+                <p>Welcome to the Intermediate n8n Course! This course builds upon the fundamentals and takes you deep into advanced automation patterns, error handling, and complex integrations.</p>
+                
+                <div class="learning-objectives">
+                    <h3>What You'll Learn</h3>
+                    <ul>
+                        <li>Master advanced n8n nodes and expressions</li>
+                        <li>Implement robust error handling and monitoring</li>
+                        <li>Build complex multi-step automation workflows</li>
+                        <li>Optimize workflow performance and reliability</li>
+                        <li>Create reusable workflow templates and sub-workflows</li>
+                    </ul>
+                </div>
+
+                <div class="prerequisites">
+                    <h3>Prerequisites</h3>
+                    <p>📋 Completion of n8n Crash Course or equivalent knowledge</p>
+                    <p>💻 Basic understanding of APIs and webhooks</p>
+                    <p>🧠 Familiarity with JSON and basic programming concepts</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Course Modules -->
+        <section class="course-modules">
+            <h2>Course Modules</h2>
+            
+            <div class="module-grid">
+                <div class="module-card">
+                    <div class="module-header">
+                        <h3>Module 1: Advanced Nodes & Expressions</h3>
+                        <span class="module-duration">20 min</span>
+                    </div>
+                    <div class="module-content">
+                        <p>Deep dive into advanced n8n nodes including Function, Code, and HTTP Request nodes. Learn to write complex expressions and handle data transformations.</p>
+                        <ul class="module-topics">
+                            <li>Advanced expression syntax</li>
+                            <li>Working with complex JSON structures</li>
+                            <li>Custom functions and JavaScript in n8n</li>
+                            <li>Data mapping and transformation techniques</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-header">
+                        <h3>Module 2: Error Handling & Monitoring</h3>
+                        <span class="module-duration">25 min</span>
+                    </div>
+                    <div class="module-content">
+                        <p>Learn to build robust workflows that handle errors gracefully and provide comprehensive monitoring and alerting capabilities.</p>
+                        <ul class="module-topics">
+                            <li>Error handling strategies</li>
+                            <li>Retry mechanisms and backoff policies</li>
+                            <li>Workflow monitoring and alerting</li>
+                            <li>Logging and debugging techniques</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-header">
+                        <h3>Module 3: Complex Workflow Patterns</h3>
+                        <span class="module-duration">25 min</span>
+                    </div>
+                    <div class="module-content">
+                        <p>Master complex automation patterns including parallel processing, conditional logic, and multi-service integrations.</p>
+                        <ul class="module-topics">
+                            <li>Parallel workflow execution</li>
+                            <li>Advanced conditional logic</li>
+                            <li>Loop patterns and data aggregation</li>
+                            <li>Multi-service integration strategies</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-header">
+                        <h3>Module 4: Performance & Optimization</h3>
+                        <span class="module-duration">20 min</span>
+                    </div>
+                    <div class="module-content">
+                        <p>Optimize your workflows for performance, reliability, and scalability. Learn best practices for production deployments.</p>
+                        <ul class="module-topics">
+                            <li>Performance optimization techniques</li>
+                            <li>Resource management and limits</li>
+                            <li>Workflow scheduling and triggers</li>
+                            <li>Production deployment strategies</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hands-on Projects -->
+        <section class="projects-section">
+            <h2>Hands-on Projects</h2>
+            
+            <div class="project-grid">
+                <div class="project-card">
+                    <h3>🔄 Multi-Service Data Sync</h3>
+                    <p>Build a complex workflow that synchronizes data between multiple services with error handling and conflict resolution.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">CRM Integration</span>
+                        <span class="tech-tag">Error Handling</span>
+                        <span class="tech-tag">Data Transformation</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>🎯 Advanced Monitoring Dashboard</h3>
+                    <p>Create a comprehensive monitoring system that tracks workflow performance and sends intelligent alerts.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Monitoring</span>
+                        <span class="tech-tag">Alerting</span>
+                        <span class="tech-tag">Analytics</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>🚀 Scalable Webhook Processor</h3>
+                    <p>Design a high-performance webhook processing system that can handle thousands of requests with proper queuing.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Webhooks</span>
+                        <span class="tech-tag">Queuing</span>
+                        <span class="tech-tag">Scalability</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools & Resources -->
+        <section class="tools-section">
+            <h2>Tools & Resources</h2>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h3>🛠️ n8n Cloud</h3>
+                    <p>Access to n8n Cloud environment for hands-on practice</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>📚 Advanced Templates</h3>
+                    <p>Collection of advanced workflow templates and patterns</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>🔧 Testing Tools</h3>
+                    <p>Workflow testing and debugging utilities</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>💬 Community Support</h3>
+                    <p>Access to expert guidance and peer discussions</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Course Progress -->
+        <section class="progress-section">
+            <h2>Your Progress</h2>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">0% Complete</span>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="startModule(1)">Start Module 1</button>
+                <button class="btn btn-secondary" onclick="downloadResources()">Download Resources</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="course-footer">
+        <p>&copy; 2024 Learning Platform - Intermediate n8n Course</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
